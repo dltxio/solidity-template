@@ -1,0 +1,27 @@
+{
+  "name": "solidity",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "hh:compile": "npx hardhat compile && npx hardhat size-contracts",
+    "hh:deploy": "npx hardhat compile && npx ts-node scripts/deploy/index.ts",
+    "hh:node": "npx hardhat node --hostname localhost"
+  },
+  "dependencies": {
+    "@chainlink/contracts": "^0.1.6",
+    "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@openzeppelin/contracts": "^4.1.0",
+    "@types/dotenv": "^8.2.0",
+    "@types/node": "^15.12.4",
+    "dotenv": "^10.0.0",
+    "ethereum-waffle": "^3.2.2",
+    "ethers": "^5.3.1",
+    "hardhat": "^2.4.0",
+    "hardhat-contract-sizer": "^2.0.3",
+    "keccak": "^3.0.1",
+    "rlp": "^2.2.6",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.4"
+  }
+}
