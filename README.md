@@ -1,6 +1,17 @@
 # solidity-template
 A template for solidity development with [hardhat](https://github.com/nomiclabs/hardhat).
 
+## Scripts
+
+### hh:compile
+Compiles the contracts with Hardhat
+
+### hh:deploy
+Runs the deployment script with the network set in `process.env.NETWORK`.
+
+### hh:node
+Starts a local hardhat node with the `localhost` network.
+
 ## Contracts
 Contracts are located in the `/contracts` folder.
 
