@@ -1,6 +1,5 @@
 import { task } from "hardhat/config";
 import contracts from "../../contracts.json";
-import tokenJson from "../../build/contracts/Token.sol/Token.json";
 
 task("read-balance")
   .addParam("address")
@@ -8,11 +7,8 @@ task("read-balance")
     const contractAddress = contracts[hre.network.name].token;
     console.log(`network is ${hre.network.name}`);
     console.log(`token address is ${contractAddress}`)
-    const token = new hre.ethers.Contract(
-      contractAddress,
-      tokenJson.abi,
-      hre.ethers.provider
-    );
+    const token = (await hre.ethers.getContractFactory("Token"))
+      .attach(contractAddress);
     const balance = await token.balanceOf(args.address);
     console.log(`balance is ${balance.toString()} wei for address ${args.address}`);
   });
@@ -25,11 +21,8 @@ task("mint")
     const contractAddress = contracts[hre.network.name].token;
     console.log(`network is ${hre.network.name}`);
     console.log(`token address is ${contractAddress}`)
-    const token = new hre.ethers.Contract(
-      contractAddress,
-      tokenJson.abi,
-      deployer
-    );
+    const token = (await hre.ethers.getContractFactory("Token"))
+      .attach(contractAddress);
     const decimals = await token.decimals();
     const ten = hre.ethers.BigNumber.from("10");
     // Mint with the correct decimals.
