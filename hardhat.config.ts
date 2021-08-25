@@ -11,6 +11,7 @@ export default {
     sources: "./contracts",
     cache: "./cache",
     artifacts: "./build",
+    tests: "./tests"
   },
   networks: {
     hardhat: {
