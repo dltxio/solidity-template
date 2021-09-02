@@ -6,6 +6,8 @@ import "hardhat-contract-sizer";
 import "./scripts/tasks"
 import {ethers} from "ethers";
 
+const defaultKey = "0000000000000000000000000000000000000000000000000000000000000001";
+
 export default {
   paths: {
     sources: "./contracts",
@@ -26,11 +28,11 @@ export default {
     },
     kovan: {
       url: process.env.KOVAN_URL,
-      accounts: [process.env.PRIVATE_KEY],
+      accounts: [process.env.PRIVATE_KEY || defaultKey],
     },
     mainnet: {
       url: process.env.MAINNET_URL,
-      accounts: [process.env.PRIVATE_KEY],
+      accounts: [process.env.PRIVATE_KEY || defaultKey],
     },
   },
   solidity: {
