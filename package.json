@@ -27,6 +27,7 @@
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
     "@types/mocha": "^9.0.0",
-    "@types/node": "^15.12.4"
+    "@types/node": "^15.12.4",
+    "solidity-coverage": "^0.7.17"
   }
 }
