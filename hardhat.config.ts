@@ -7,6 +7,7 @@ import "./scripts/tasks"
 import {ethers} from "ethers";
 
 const defaultKey = "0000000000000000000000000000000000000000000000000000000000000001";
+const defaultRpcUrl = "https://localhost:8545";
 
 export default {
   paths: {
@@ -27,11 +28,11 @@ export default {
       allowUnlimitedContractSize: false,
     },
     kovan: {
-      url: process.env.KOVAN_URL,
+      url: process.env.KOVAN_URL || defaultRpcUrl,
       accounts: [process.env.PRIVATE_KEY || defaultKey],
     },
     mainnet: {
-      url: process.env.MAINNET_URL,
+      url: process.env.MAINNET_URL || defaultRpcUrl,
       accounts: [process.env.PRIVATE_KEY || defaultKey],
     },
   },
