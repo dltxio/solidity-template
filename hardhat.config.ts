@@ -6,6 +6,10 @@ import "hardhat-contract-sizer";
 import "./scripts/tasks"
 import {ethers} from "ethers";
 
+const defaultKey = "0000000000000000000000000000000000000000000000000000000000000001";
+const defaultRpcUrl = "https://localhost:8545";
+const defaultEtherBalance = "100000000";
+
 export default {
   paths: {
     sources: "./contracts",
@@ -19,18 +23,19 @@ export default {
       accounts: [{
         privateKey: process.env.PRIVATE_KEY,
         balance: ethers.utils.parseEther(
-          process.env.LOCAL_ETHER_BALANCE?.toString() ?? "1"
+          process.env.LOCAL_ETHER_BALANCE?.toString() ??
+            defaultEtherBalance
         ).toString(),
       }],
       allowUnlimitedContractSize: false,
     },
     kovan: {
-      url: process.env.KOVAN_URL,
-      accounts: [process.env.PRIVATE_KEY],
+      url: process.env.KOVAN_URL || defaultRpcUrl,
+      accounts: [process.env.PRIVATE_KEY || defaultKey],
     },
     mainnet: {
-      url: process.env.MAINNET_URL,
-      accounts: [process.env.PRIVATE_KEY],
+      url: process.env.MAINNET_URL || defaultRpcUrl,
+      accounts: [process.env.PRIVATE_KEY || defaultKey],
     },
   },
   solidity: {
