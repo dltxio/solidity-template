@@ -1,5 +1,4 @@
-﻿
-export const getRevertMessage = (error) => {
+﻿export const getRevertMessage = (error) => {
   if (typeof error !== "string") error = error.message;
   const prefix = "VM Exception while processing transaction: revert ";
   const suffix = "\n";
@@ -10,7 +9,7 @@ export const getRevertMessage = (error) => {
   );
   // Depending on the formatting of the message, it might wrap the
   // revert message in '' and mention "reverted" instead of revert.
-  return (error.startsWith("ed") && error.endsWith("'"))
+  return error.startsWith("ed") && error.endsWith("'")
     ? error.substring(error.indexOf("'") + 1, error.length - 1)
     : error;
 };
