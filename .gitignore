@@ -26,3 +26,7 @@ build/
 
 cache/
 artifacts/
+
+# Solidty coverage report
+coverage.json
+coverage/

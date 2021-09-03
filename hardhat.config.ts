@@ -4,6 +4,7 @@ import "@nomiclabs/hardhat-waffle";
 import "@nomiclabs/hardhat-ethers";
 import "hardhat-contract-sizer";
 import "./scripts/tasks"
+import "solidity-coverage"
 import {ethers} from "ethers";
 
 const defaultKey = "0000000000000000000000000000000000000000000000000000000000000001";
