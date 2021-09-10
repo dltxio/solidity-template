@@ -53,7 +53,7 @@ describe("ERC20 Token", () => {
         await ownerFunction();
       } catch (error) {
         const revertReason = getRevertMessage(error);
-        expect(revertReason).to.equal("Access Denied");
+        expect(revertReason).to.equal("Ownable: caller is not the owner");
         continue;
       }
       throw new Error("Allowed user to call protected functions");
