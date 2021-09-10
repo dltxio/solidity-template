@@ -1,4 +1,4 @@
-import { ethers } from "hardhat";
+import { ethers, upgrades } from "hardhat";
 
 export const deployContract = async (
   contractName: string,
@@ -33,4 +33,27 @@ export const getContractAddressFromConfigKey = (key: string, configForNetwork) =
     if (result != null) return result;
   }
   return null;
+};
+
+export const deployProxy = async (
+  contractName,
+  constructorArguments,
+  waitCount = 6
+) => {
+  const Contract = await ethers.getContractFactory(contractName);
+  const contract = await upgrades.deployProxy(Contract, constructorArguments, {
+    kind: "uups",
+  });
+  await contract.deployTransaction.wait(waitCount);
+  return contract;
+};
+
+export const upgradeProxy = async (
+  contractName,
+  currentAddress,
+  waitCount = 6
+) => {
+  const Contract = await ethers.getContractFactory(contractName);
+  const contract = await upgrades.upgradeProxy(currentAddress, Contract);
+  return contract;
 };
