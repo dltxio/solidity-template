@@ -27,6 +27,8 @@ export const deploy = async () => {
   // Deploy Token contract
   await Token.deploy(setAddresses);
   const delta = balance.sub(await deployer.getBalance());
-  console.log(`deployment used a total of ${ethers.utils.formatEther(delta)} ETH`);
+  console.log(
+    `deployment used a total of ${ethers.utils.formatEther(delta)} ETH`
+  );
   return config;
 };

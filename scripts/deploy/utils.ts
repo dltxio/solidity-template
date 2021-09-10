@@ -16,7 +16,10 @@ export const deployContract = async (
  * @param key The contract name.
  * @param configForNetwork The config object holding contract addresses.
  */
-export const getContractAddressFromConfigKey = (key: string, configForNetwork) => {
+export const getContractAddressFromConfigKey = (
+  key: string,
+  configForNetwork
+) => {
   if (key?.length === 42) return key;
   const searchInObject = (object) => {
     const keys = Object.keys(object);

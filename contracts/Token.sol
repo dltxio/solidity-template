@@ -19,26 +19,20 @@ contract Token is IERC20, ERC20 {
         owner = msg.sender;
         _decimals = decimals_;
     }
-    
+
     modifier onlyOwner() {
         require(msg.sender == owner, "Access Denied");
         _;
     }
-    
-    function mint(address account, uint256 amount)
-        external
-        onlyOwner
-    {
+
+    function mint(address account, uint256 amount) external onlyOwner {
         _mint(account, amount);
     }
 
-    function burn(address account, uint256 amount)
-        external
-        onlyOwner
-    {
+    function burn(address account, uint256 amount) external onlyOwner {
         _burn(account, amount);
     }
-    
+
     function decimals() public view override returns (uint8) {
         return _decimals;
     }

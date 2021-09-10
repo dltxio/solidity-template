@@ -5,9 +5,9 @@ export const deploy = async (setAddresses) => {
   const token = await deployContract(
     "Token",
     [
-        process.env.CONSTRUCTOR_TOKEN_NAME,
-        process.env.CONSTRUCTOR_TOKEN_SYMBOL,
-        process.env.CONSTRUCTOR_TOKEN_DECIMALS,
+      process.env.CONSTRUCTOR_TOKEN_NAME,
+      process.env.CONSTRUCTOR_TOKEN_SYMBOL,
+      process.env.CONSTRUCTOR_TOKEN_DECIMALS
     ],
     1
   );

@@ -6,11 +6,14 @@ task("read-balance")
   .setAction(async (args, hre) => {
     const contractAddress = contracts[hre.network.name].token;
     console.log(`network is ${hre.network.name}`);
-    console.log(`token address is ${contractAddress}`)
-    const token = (await hre.ethers.getContractFactory("Token"))
-      .attach(contractAddress);
+    console.log(`token address is ${contractAddress}`);
+    const token = (await hre.ethers.getContractFactory("Token")).attach(
+      contractAddress
+    );
     const balance = await token.balanceOf(args.address);
-    console.log(`balance is ${balance.toString()} wei for address ${args.address}`);
+    console.log(
+      `balance is ${balance.toString()} wei for address ${args.address}`
+    );
   });
 
 task("mint")
@@ -20,9 +23,10 @@ task("mint")
     const [deployer] = await hre.ethers.getSigners();
     const contractAddress = contracts[hre.network.name].token;
     console.log(`network is ${hre.network.name}`);
-    console.log(`token address is ${contractAddress}`)
-    const token = (await hre.ethers.getContractFactory("Token"))
-      .attach(contractAddress);
+    console.log(`token address is ${contractAddress}`);
+    const token = (await hre.ethers.getContractFactory("Token")).attach(
+      contractAddress
+    );
     const decimals = await token.decimals();
     const ten = hre.ethers.BigNumber.from("10");
     // Mint with the correct decimals.

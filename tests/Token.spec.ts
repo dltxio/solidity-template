@@ -39,13 +39,13 @@ describe("ERC20 Token", () => {
     // Send ETH to user from signer.
     await deployer.sendTransaction({
       to: user.address,
-      value: ethers.utils.parseEther("1"),
+      value: ethers.utils.parseEther("1")
     });
     // List protected functions.
     let userToken = token.connect(user);
     const ownerFunctions = [
       async () => await userToken.mint(user.address, "1"),
-      async () => await userToken.burn(user.address, "1"),
+      async () => await userToken.burn(user.address, "1")
     ];
     // Assert that all protected functions revert when called from an user.
     for (let ownerFunction of ownerFunctions) {
@@ -59,7 +59,7 @@ describe("ERC20 Token", () => {
       throw new Error("Allowed user to call protected functions");
     }
   });
-  
+
   it("Should emit a transfer event", async () => {
     const deployerAddress = await deployer.getAddress();
     // Mint & transfer 1 wei.
