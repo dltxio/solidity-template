@@ -3,11 +3,13 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "prepare": "husky install",
     "hh:compile": "npx hardhat compile && npx hardhat size-contracts",
     "hh:deploy": "npx hardhat compile && npx ts-node scripts/deploy/index.ts",
     "hh:node": "npx hardhat node --hostname localhost",
     "test": "npx hardhat test",
-    "coverage": "npx hardhat coverage"
+    "coverage": "npx hardhat coverage",
+    "lint": "prettier --write \"./**/*.{js,sol,ts}\""
   },
   "dependencies": {
     "@chainlink/contracts": "^0.1.6",
