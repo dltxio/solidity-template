@@ -5,6 +5,7 @@
   "scripts": {
     "hh:compile": "npx hardhat compile && npx hardhat size-contracts",
     "hh:deploy": "npx hardhat compile && npx ts-node scripts/deploy/index.ts",
+    "hh:upgrade": "npx hardhat compile && npx ts-node scripts/deploy/index.ts upgrade-contracts",
     "hh:node": "npx hardhat node --hostname localhost",
     "test": "npx hardhat test",
     "coverage": "npx hardhat coverage"
