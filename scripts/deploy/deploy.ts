@@ -3,6 +3,10 @@ import { ethers as tsEthers } from "ethers";
 import { updateContractConfig } from "../utils";
 import * as Token from "./contracts/Token";
 // @ts-ignore
+import savedConfig from "../../contracts.json";
+import * as TokenUpgradeable from "./contracts/TokenUpgradeable";
+import * as net from "net";
+// @ts-ignore
 const ethers = hardhat.ethers;
 
 let config;
@@ -22,6 +26,7 @@ const setAddresses = (deltaConfig) => {
 
 export const deploy = async () => {
   network = process.env.HARDHAT_NETWORK?.toLowerCase();
+  config = savedConfig[network];
   console.log(`network is ${network}`);
   const isUpgrading = process.argv.includes('upgrade-contracts');
   const [deployer] = await ethers.getSigners();
@@ -34,7 +39,10 @@ export const deploy = async () => {
   const balance = await deployer.getBalance();
   console.log(`balance is ${ethers.utils.formatEther(balance)} ETH`);
   // Define deployment routines.
-  const modules: DeploymentModule[] = [Token];
+  const modules: DeploymentModule[] = [
+    Token,
+    TokenUpgradeable
+  ];
   // Execute deployment routines.
   for (let routine of modules) {
     let foundArg = false;
