@@ -4,11 +4,11 @@ pragma abicoder v2;
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Token is IERC20, ERC20 {
+contract Token is IERC20, ERC20, Ownable {
     using SafeMath for uint256;
 
-    address public immutable owner;
     uint8 private immutable _decimals;
 
     constructor(
@@ -16,15 +16,9 @@ contract Token is IERC20, ERC20 {
         string memory symbol_,
         uint8 decimals_
     ) ERC20(name_, symbol_) {
-        owner = msg.sender;
         _decimals = decimals_;
     }
-    
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Access Denied");
-        _;
-    }
-    
+
     function mint(address account, uint256 amount)
         external
         onlyOwner
