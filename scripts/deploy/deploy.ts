@@ -5,7 +5,7 @@ import * as Token from "./contracts/Token";
 // @ts-ignore
 import savedConfig from "../../contracts.json";
 import * as TokenUpgradeable from "./contracts/TokenUpgradeable";
-import * as net from "net";
+import {getSignerForDeployer, getSignerIndex} from "./utils";
 // @ts-ignore
 const ethers = hardhat.ethers;
 
@@ -29,7 +29,8 @@ export const deploy = async () => {
   config = savedConfig[network];
   console.log(`network is ${network}`);
   const isUpgrading = process.argv.includes('upgrade-contracts');
-  const [deployer] = await ethers.getSigners();
+  const deployer = await getSignerForDeployer();
+  console.log("using deployer index ", getSignerIndex());
   console.log(`deployer is ${await deployer.getAddress()}`);
   const gasPrice = await deployer.provider.getGasPrice();
   console.log(
