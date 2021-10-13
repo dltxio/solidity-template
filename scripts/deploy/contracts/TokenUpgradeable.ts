@@ -5,7 +5,7 @@ export const args = ["token-upgradeable"];
 export const constructorArguments = () => [
   process.env.CONSTRUCTOR_TOKEN_NAME,
   process.env.CONSTRUCTOR_TOKEN_SYMBOL,
-  process.env.CONSTRUCTOR_TOKEN_DECIMALS,
+  process.env.CONSTRUCTOR_TOKEN_DECIMALS
 ];
 
 export const deploy = async (deployer, setAddresses) => {
@@ -16,7 +16,9 @@ export const deploy = async (deployer, setAddresses) => {
     deployer,
     1
   );
-  console.log(`deployed TokenUpgradeable to address ${tokenUpgradeable.address}`);
+  console.log(
+    `deployed TokenUpgradeable to address ${tokenUpgradeable.address}`
+  );
   setAddresses({ tokenUpgradeable: tokenUpgradeable.address });
   return tokenUpgradeable;
 };

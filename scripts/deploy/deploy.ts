@@ -5,7 +5,7 @@ import * as Token from "./contracts/Token";
 // @ts-ignore
 import savedConfig from "../../contracts.json";
 import * as TokenUpgradeable from "./contracts/TokenUpgradeable";
-import {getSignerForDeployer, getSignerIndex} from "./utils";
+import { getSignerForDeployer, getSignerIndex } from "./utils";
 // @ts-ignore
 const ethers = hardhat.ethers;
 
@@ -13,14 +13,14 @@ let addresses;
 let network;
 
 interface DeploymentModule {
-  constructorArguments: (addresses?: any) => any[],
+  constructorArguments: (addresses?: any) => any[];
   deploy: (
     deployer: tsEthers.Signer,
     setAddresses: Function,
     addresses?: any
-  ) => Promise<tsEthers.Contract>,
-  upgrade?: (deployer: tsEthers.Signer, addresses?: any) => void,
-  args: string[],
+  ) => Promise<tsEthers.Contract>;
+  upgrade?: (deployer: tsEthers.Signer, addresses?: any) => void;
+  args: string[];
 }
 
 const setAddresses = (deltaConfig) => {
@@ -32,7 +32,7 @@ export const deploy = async () => {
   network = process.env.HARDHAT_NETWORK?.toLowerCase();
   addresses = savedConfig[network];
   console.log(`network is ${network}`);
-  const isUpgrading = process.argv.includes('upgrade-contracts');
+  const isUpgrading = process.argv.includes("upgrade-contracts");
   const deployer = await getSignerForDeployer();
   console.log("using deployer index ", getSignerIndex());
   console.log(`deployer is ${await deployer.getAddress()}`);
@@ -44,10 +44,7 @@ export const deploy = async () => {
   const balance = await deployer.getBalance();
   console.log(`balance is ${ethers.utils.formatEther(balance)} ETH`);
   // Define deployment routines.
-  const modules: DeploymentModule[] = [
-    Token,
-    TokenUpgradeable
-  ];
+  const modules: DeploymentModule[] = [Token, TokenUpgradeable];
   // Execute deployment routines.
   for (let routine of modules) {
     let foundArg = false;
@@ -65,6 +62,8 @@ export const deploy = async () => {
     }
   }
   const delta = balance.sub(await deployer.getBalance());
-  console.log(`deployment used a total of ${ethers.utils.formatEther(delta)} ETH`);
+  console.log(
+    `deployment used a total of ${ethers.utils.formatEther(delta)} ETH`
+  );
   return addresses;
 };

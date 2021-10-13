@@ -5,7 +5,7 @@ export const args = ["token"];
 export const constructorArguments = () => [
   process.env.CONSTRUCTOR_TOKEN_NAME,
   process.env.CONSTRUCTOR_TOKEN_SYMBOL,
-  process.env.CONSTRUCTOR_TOKEN_DECIMALS,
+  process.env.CONSTRUCTOR_TOKEN_DECIMALS
 ];
 
 export const deploy = async (deployer, setAddresses) => {

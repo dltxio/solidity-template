@@ -3,12 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "prepare": "husky install",
     "hh:compile": "npx hardhat compile && npx hardhat size-contracts",
     "hh:deploy": "npx hardhat compile && npx ts-node scripts/deploy/index.ts",
     "hh:upgrade": "npx hardhat compile && npx ts-node scripts/deploy/index.ts upgrade-contracts",
     "hh:node": "npx hardhat node --hostname localhost",
     "test": "npx hardhat test",
-    "coverage": "npx hardhat coverage"
+    "coverage": "npx hardhat coverage",
+    "lint": "prettier --write \"./**/*.{js,sol,ts}\""
   },
   "dependencies": {
     "@chainlink/contracts": "^0.1.6",
@@ -38,6 +40,10 @@
     "@types/dotenv": "^8.2.0",
     "@types/mocha": "^9.0.0",
     "@types/node": "^15.12.4",
+    "husky": "^7.0.2",
+    "prettier": "^2.4.0",
+    "prettier-plugin-solidity": "^1.0.0-beta.18",
+    "pretty-quick": "^3.1.1",
     "solidity-coverage": "^0.7.17"
   }
 }
