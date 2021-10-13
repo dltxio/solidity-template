@@ -1,4 +1,4 @@
-import {ethers as tsEthers, ethers} from "ethers";
+import { ethers as tsEthers } from "ethers";
 import * as Token from "./Token";
 import * as TokenUpgradeable from "./TokenUpgradeable";
 

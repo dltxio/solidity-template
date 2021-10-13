@@ -4,7 +4,8 @@ import contracts from "../../contracts.json";
 task("verify-contracts-etherscan").setAction(async (args, hre) => {
   console.log(`network is ${hre.network.name}`);
   const networkContracts = contracts[hre.network.name];
-  const contractDeploymentModules = (await import("../deploy/contracts")).default;
+  const contractDeploymentModules = (await import("../deploy/contracts"))
+    .default;
   for (let module of contractDeploymentModules) {
     for (let contract of module.contractNames()) {
       if (!networkContracts[contract]) continue;
@@ -15,7 +16,7 @@ task("verify-contracts-etherscan").setAction(async (args, hre) => {
         // but the ones that do should accept parameters in this standard
         // order of inputs.
         module.constructorArguments(
-          networkContracts, // contract name => contract address dictionary
+          networkContracts // contract name => contract address dictionary
         ),
         hre
       );
