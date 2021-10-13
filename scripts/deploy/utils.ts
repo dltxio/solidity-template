@@ -102,6 +102,8 @@ export const getSignerForDeployer = async (): Promise<tsEthers.Signer> => {
   } else {
     const deployers = await ethers.getSigners();
     deployer = deployers[deployerIndex];
+    if (!deployer)
+      throw new Error(`Could not fetch signer for index ${deployerIndex}`);
   }
   return deployer;
 };
