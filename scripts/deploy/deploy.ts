@@ -1,27 +1,14 @@
 import hardhat from "hardhat";
-import { ethers as tsEthers } from "ethers";
 import { updateContractConfig } from "../utils";
-import * as Token from "./contracts/Token";
 // @ts-ignore
 import savedConfig from "../../contracts.json";
-import * as TokenUpgradeable from "./contracts/TokenUpgradeable";
 import { getSignerForDeployer, getSignerIndex } from "./utils";
+import DeploymentModules from "./contracts";
 // @ts-ignore
 const ethers = hardhat.ethers;
 
 let addresses;
 let network;
-
-interface DeploymentModule {
-  constructorArguments: (addresses?: any) => any[];
-  deploy: (
-    deployer: tsEthers.Signer,
-    setAddresses: Function,
-    addresses?: any
-  ) => Promise<tsEthers.Contract>;
-  upgrade?: (deployer: tsEthers.Signer, addresses?: any) => void;
-  args: string[];
-}
 
 const setAddresses = (deltaConfig) => {
   addresses = { ...addresses, ...deltaConfig };
@@ -44,11 +31,10 @@ export const deploy = async () => {
   const balance = await deployer.getBalance();
   console.log(`balance is ${ethers.utils.formatEther(balance)} ETH`);
   // Define deployment routines.
-  const modules: DeploymentModule[] = [Token, TokenUpgradeable];
   // Execute deployment routines.
-  for (let routine of modules) {
+  for (let routine of DeploymentModules) {
     let foundArg = false;
-    for (let arg of routine.args) {
+    for (let arg of routine.contractNames()) {
       if (!process.argv.includes(arg)) continue;
       foundArg = true;
     }

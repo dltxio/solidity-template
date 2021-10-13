@@ -1,6 +1,6 @@
 import { deployProxy, upgradeProxy } from "../utils";
 
-export const args = ["token-upgradeable"];
+export const contractNames = () => ["token-upgradeable"];
 
 export const constructorArguments = () => [
   process.env.CONSTRUCTOR_TOKEN_NAME,
