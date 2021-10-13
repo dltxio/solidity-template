@@ -3,6 +3,7 @@ dotenvConfig();
 import "@nomiclabs/hardhat-waffle";
 import "@nomiclabs/hardhat-ethers";
 import "@openzeppelin/hardhat-upgrades";
+import "@nomiclabs/hardhat-etherscan";
 import "hardhat-contract-sizer";
 import "./scripts/tasks";
 import "solidity-coverage";
@@ -39,10 +40,18 @@ export default {
       url: process.env.KOVAN_URL || defaultRpcUrl,
       accounts: [process.env.PRIVATE_KEY || defaultKey]
     },
+    rinkeby: {
+      url: process.env.RINKEBY_URL || defaultRpcUrl,
+      accounts: [process.env.PRIVATE_KEY || defaultKey]
+    },
     mainnet: {
       url: process.env.MAINNET_URL || defaultRpcUrl,
       accounts: [process.env.PRIVATE_KEY || defaultKey]
     }
+  },
+  etherscan: {
+    // Obtain etherscan API key at https://etherscan.io/
+    apiKey: process.env.ETHERSCAN_KEY
   },
   solidity: {
     compilers: [

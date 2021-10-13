@@ -1,6 +1,6 @@
 import { deployContract } from "../utils";
 
-export const args = ["token"];
+export const contractNames = () => ["token"];
 
 export const constructorArguments = () => [
   process.env.CONSTRUCTOR_TOKEN_NAME,
