@@ -1,11 +1,16 @@
 import { ethers, upgrades } from "hardhat";
+import {ethers as tsEthers} from "ethers";
+import { getLedgerSigner } from "../utils";
 
 export const deployContract = async (
   contractName: string,
   constructorArguments: any[],
+  signer?: tsEthers.Signer,
   waitCount: number = 1
 ) => {
-  const Contract = await ethers.getContractFactory(contractName);
+  signer = signer ?? await getSignerForDeployer();
+  const Contract = (await ethers.getContractFactory(contractName))
+    .connect(signer);
   const contract = await Contract.deploy(...constructorArguments);
   await contract.deployTransaction.wait(waitCount);
   return contract;
@@ -41,9 +46,12 @@ export const getContractAddressFromConfigKey = (
 export const deployProxy = async (
   contractName,
   constructorArguments,
-  waitCount = 6
+  signer?: tsEthers.Signer,
+  waitCount = 1
 ) => {
-  const Contract = await ethers.getContractFactory(contractName);
+  signer = signer ?? await getSignerForDeployer();
+  const Contract = (await ethers.getContractFactory(contractName))
+    .connect(signer);
   const contract = await upgrades.deployProxy(Contract, constructorArguments, {
     kind: "uups"
   });
@@ -54,9 +62,51 @@ export const deployProxy = async (
 export const upgradeProxy = async (
   contractName,
   currentAddress,
-  waitCount = 6
+  signer?: tsEthers.Signer,
+  waitCount = 1
 ) => {
-  const Contract = await ethers.getContractFactory(contractName);
+  signer = signer ?? await getSignerForDeployer();
+  const Contract = (await ethers.getContractFactory(contractName))
+    .connect(signer);
   const contract = await upgrades.upgradeProxy(currentAddress, Contract);
+  await contract.deployTransaction.wait(waitCount);
   return contract;
+};
+
+/**
+ * Returns the signer derivation index to use during deployment.
+ * The index is to be passed with a `signer=` process argument
+ * to this script. e.g. deploy.ts signer=15 will use the 16th
+ * (as it is zero-indexed) key via the derivation path.
+ */
+export const getSignerIndex = () => {
+  const prefix = "signer=";
+  for (let arg of process.argv) {
+    arg = arg.toLowerCase();
+    if (!arg.startsWith(prefix)) continue;
+    const i = parseInt(arg.substring(prefix.length, arg.length));
+    if (!i) return 0;
+    return i;
+  }
+  return 0;
+};
+
+/**
+ * Fetches the correct signer object to use with deployment.
+ * Either a private key or mnemonic set via environment variables
+ * or hardhat configuration, or a ledger signer if the process
+ * was invoked with the `ledger` argument.
+ */
+export const getSignerForDeployer = async (): Promise<tsEthers.Signer> => {
+  let deployer: tsEthers.Signer;
+  const deployerIndex = getSignerIndex();
+  if (process.argv.includes("ledger")) {
+    deployer = getLedgerSigner(deployerIndex, ethers.provider);
+  } else {
+    const deployers = await ethers.getSigners();
+    deployer = deployers[deployerIndex];
+    if (!deployer)
+      throw new Error(`Could not fetch signer for index ${deployerIndex}`);
+  }
+  return deployer;
 };

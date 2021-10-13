@@ -5,34 +5,36 @@ import * as Token from "./contracts/Token";
 // @ts-ignore
 import savedConfig from "../../contracts.json";
 import * as TokenUpgradeable from "./contracts/TokenUpgradeable";
-import * as net from "net";
+import {getSignerForDeployer, getSignerIndex} from "./utils";
 // @ts-ignore
 const ethers = hardhat.ethers;
 
-let config;
+let addresses;
 let network;
 
 interface DeploymentModule {
-  constructorArguments: (addresses?: any) => any[];
+  constructorArguments: (addresses?: any) => any[],
   deploy: (
+    deployer: tsEthers.Signer,
     setAddresses: Function,
     addresses?: any
-  ) => Promise<tsEthers.Contract>;
-  upgrade?: (addresses?: any) => void;
-  args: string[];
+  ) => Promise<tsEthers.Contract>,
+  upgrade?: (deployer: tsEthers.Signer, addresses?: any) => void,
+  args: string[],
 }
 
 const setAddresses = (deltaConfig) => {
-  config = { ...config, ...deltaConfig };
-  updateContractConfig(network, config);
+  addresses = { ...addresses, ...deltaConfig };
+  updateContractConfig(network, addresses);
 };
 
 export const deploy = async () => {
   network = process.env.HARDHAT_NETWORK?.toLowerCase();
-  config = savedConfig[network];
+  addresses = savedConfig[network];
   console.log(`network is ${network}`);
-  const isUpgrading = process.argv.includes("upgrade-contracts");
-  const [deployer] = await ethers.getSigners();
+  const isUpgrading = process.argv.includes('upgrade-contracts');
+  const deployer = await getSignerForDeployer();
+  console.log("using deployer index ", getSignerIndex());
   console.log(`deployer is ${await deployer.getAddress()}`);
   const gasPrice = await deployer.provider.getGasPrice();
   console.log(
@@ -54,14 +56,12 @@ export const deploy = async () => {
     if (!foundArg) continue;
     // Upgrade or deploy.
     if (!isUpgrading) {
-      await routine.deploy(setAddresses, config);
+      await routine.deploy(deployer, setAddresses, addresses);
     } else if (routine.upgrade != null) {
-      await routine.upgrade(config);
+      await routine.upgrade(deployer, addresses);
     }
   }
   const delta = balance.sub(await deployer.getBalance());
-  console.log(
-    `deployment used a total of ${ethers.utils.formatEther(delta)} ETH`
-  );
-  return config;
+  console.log(`deployment used a total of ${ethers.utils.formatEther(delta)} ETH`);
+  return addresses;
 };
