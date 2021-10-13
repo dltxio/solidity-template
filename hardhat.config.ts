@@ -2,6 +2,7 @@ import { config as dotenvConfig } from "dotenv";
 dotenvConfig();
 import "@nomiclabs/hardhat-waffle";
 import "@nomiclabs/hardhat-ethers";
+import "@openzeppelin/hardhat-upgrades";
 import "hardhat-contract-sizer";
 import "./scripts/tasks";
 import "solidity-coverage";

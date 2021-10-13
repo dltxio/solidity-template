@@ -6,6 +6,7 @@
     "prepare": "husky install",
     "hh:compile": "npx hardhat compile && npx hardhat size-contracts",
     "hh:deploy": "npx hardhat compile && npx ts-node scripts/deploy/index.ts",
+    "hh:upgrade": "npx hardhat compile && npx ts-node scripts/deploy/index.ts upgrade-contracts",
     "hh:node": "npx hardhat node --hostname localhost",
     "test": "npx hardhat test",
     "coverage": "npx hardhat coverage",
@@ -28,6 +29,8 @@
     "typescript": "^4.3.4"
   },
   "devDependencies": {
+    "@openzeppelin/contracts-upgradeable": "^4.3.1",
+    "@openzeppelin/hardhat-upgrades": "^1.10.0",
     "@types/dotenv": "^8.2.0",
     "@types/mocha": "^9.0.0",
     "@types/node": "^15.12.4",
