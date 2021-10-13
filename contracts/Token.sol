@@ -19,10 +19,7 @@ contract Token is IERC20, ERC20, Ownable {
         _decimals = decimals_;
     }
 
-    function mint(address account, uint256 amount)
-        external
-        onlyOwner
-    {
+    function mint(address account, uint256 amount) external onlyOwner {
         _mint(account, amount);
     }
 

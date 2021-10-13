@@ -13,10 +13,13 @@ let config;
 let network;
 
 interface DeploymentModule {
-  constructorArguments: (addresses?: any) => any[],
-  deploy: (setAddresses: Function, addresses?: any) => Promise<tsEthers.Contract>,
-  upgrade?: (addresses?: any) => void,
-  args: string[],
+  constructorArguments: (addresses?: any) => any[];
+  deploy: (
+    setAddresses: Function,
+    addresses?: any
+  ) => Promise<tsEthers.Contract>;
+  upgrade?: (addresses?: any) => void;
+  args: string[];
 }
 
 const setAddresses = (deltaConfig) => {
@@ -28,7 +31,7 @@ export const deploy = async () => {
   network = process.env.HARDHAT_NETWORK?.toLowerCase();
   config = savedConfig[network];
   console.log(`network is ${network}`);
-  const isUpgrading = process.argv.includes('upgrade-contracts');
+  const isUpgrading = process.argv.includes("upgrade-contracts");
   const [deployer] = await ethers.getSigners();
   console.log(`deployer is ${await deployer.getAddress()}`);
   const gasPrice = await deployer.provider.getGasPrice();
@@ -39,10 +42,7 @@ export const deploy = async () => {
   const balance = await deployer.getBalance();
   console.log(`balance is ${ethers.utils.formatEther(balance)} ETH`);
   // Define deployment routines.
-  const modules: DeploymentModule[] = [
-    Token,
-    TokenUpgradeable
-  ];
+  const modules: DeploymentModule[] = [Token, TokenUpgradeable];
   // Execute deployment routines.
   for (let routine of modules) {
     let foundArg = false;

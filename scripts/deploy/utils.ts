@@ -45,7 +45,7 @@ export const deployProxy = async (
 ) => {
   const Contract = await ethers.getContractFactory(contractName);
   const contract = await upgrades.deployProxy(Contract, constructorArguments, {
-    kind: "uups",
+    kind: "uups"
   });
   await contract.deployTransaction.wait(waitCount);
   return contract;
