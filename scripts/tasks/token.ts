@@ -1,6 +1,7 @@
 import { task } from "hardhat/config";
 import contracts from "../../contracts.json";
-import {getLedgerSigner} from "../utils";
+import { ethers as tsEthers } from "ethers";
+import { getLedgerSigner } from "../utils";
 
 task("read-balance")
   .addParam("address")
@@ -19,7 +20,7 @@ task("mint")
   .addParam("amount")
   .addOptionalParam("ledgersigner")
   .setAction(async (args, hre) => {
-    let signer;
+    let signer: tsEthers.Signer;
     if (!args.ledgersigner) {
       signer = (await hre.ethers.getSigners())[0];
     } else {
