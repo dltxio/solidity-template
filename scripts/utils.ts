@@ -83,4 +83,3 @@ export const getGasPriceFromEnv = () => {
     throw new Error("Could not fetch gas price from DEPLOY_GAS_PRICE_WEI env");
   return gasPrice;
 };
-

@@ -1,5 +1,5 @@
 import { ethers, upgrades } from "hardhat";
-import {ethers as tsEthers} from "ethers";
+import { ethers as tsEthers } from "ethers";
 import { getLedgerSigner } from "../utils";
 
 export const deployContract = async (
@@ -8,9 +8,10 @@ export const deployContract = async (
   signer?: tsEthers.Signer,
   waitCount: number = 1
 ) => {
-  signer = signer ?? await getSignerForDeployer();
-  const Contract = (await ethers.getContractFactory(contractName))
-    .connect(signer);
+  signer = signer ?? (await getSignerForDeployer());
+  const Contract = (await ethers.getContractFactory(contractName)).connect(
+    signer
+  );
   const contract = await Contract.deploy(...constructorArguments);
   await contract.deployTransaction.wait(waitCount);
   return contract;
@@ -49,9 +50,10 @@ export const deployProxy = async (
   signer?: tsEthers.Signer,
   waitCount = 1
 ) => {
-  signer = signer ?? await getSignerForDeployer();
-  const Contract = (await ethers.getContractFactory(contractName))
-    .connect(signer);
+  signer = signer ?? (await getSignerForDeployer());
+  const Contract = (await ethers.getContractFactory(contractName)).connect(
+    signer
+  );
   const contract = await upgrades.deployProxy(Contract, constructorArguments, {
     kind: "uups"
   });
@@ -65,9 +67,10 @@ export const upgradeProxy = async (
   signer?: tsEthers.Signer,
   waitCount = 1
 ) => {
-  signer = signer ?? await getSignerForDeployer();
-  const Contract = (await ethers.getContractFactory(contractName))
-    .connect(signer);
+  signer = signer ?? (await getSignerForDeployer());
+  const Contract = (await ethers.getContractFactory(contractName)).connect(
+    signer
+  );
   const contract = await upgrades.upgradeProxy(currentAddress, Contract);
   await contract.deployTransaction.wait(waitCount);
   return contract;
