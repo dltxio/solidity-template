@@ -8,11 +8,12 @@ export const constructorArguments = () => [
   process.env.CONSTRUCTOR_TOKEN_DECIMALS,
 ];
 
-export const deploy = async (setAddresses) => {
+export const deploy = async (deployer, setAddresses) => {
   console.log("deploying Token");
   const token = await deployContract(
     "Token",
     constructorArguments(),
+    deployer,
     1
   );
   console.log(`deployed Token to address ${token.address}`);

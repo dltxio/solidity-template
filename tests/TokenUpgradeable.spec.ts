@@ -14,6 +14,7 @@ describe("ERC20 Token Upgradeable", () => {
     token = await deployProxy(
       "TokenUpgradeable",
       ["Token", "TKN", 18],
+      deployer,
       1
     );
   });
