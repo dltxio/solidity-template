@@ -15,8 +15,10 @@
 };
 
 export const getEventData = (eventName, contract, txResult) => {
+  const event = txResult.events.find((x) => x.event === eventName);
   return contract.interface.decodeEventLog(
     eventName,
-    txResult.events.find((x) => x.event === eventName).data
+    event?.data,
+    event?.topics
   );
 };

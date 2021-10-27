@@ -66,8 +66,8 @@ describe("ERC20 Token", () => {
     await token.mint(deployerAddress, "1");
     const receipt = await (await token.transfer(user.address, "1")).wait(1);
     const event = getEventData("Transfer", token, receipt);
-    // Note: event.from and event.to are indexed addresses and cannot
-    // be read from the event object here.
+    expect(event.from).to.equal(deployerAddress);
+    expect(event.to).to.equal(user.address);
     expect(event.value).to.equal("1");
   });
 });
