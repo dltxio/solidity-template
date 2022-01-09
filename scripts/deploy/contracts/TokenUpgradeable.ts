@@ -1,4 +1,5 @@
 import { deployProxy, upgradeProxy } from "../utils";
+import {TokenUpgradeable} from "../../../build/typechain";
 
 export const contractNames = () => ["token-upgradeable"];
 
@@ -10,12 +11,12 @@ export const constructorArguments = () => [
 
 export const deploy = async (deployer, setAddresses) => {
   console.log("deploying TokenTokenUpgradeable");
-  const tokenUpgradeable = await deployProxy(
+  const tokenUpgradeable: TokenUpgradeable = await deployProxy(
     "TokenUpgradeable",
     constructorArguments(),
     deployer,
     1
-  );
+  ) as TokenUpgradeable;
   console.log(
     `deployed TokenUpgradeable to address ${tokenUpgradeable.address}`
   );
