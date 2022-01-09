@@ -17,4 +17,5 @@ jobs:
         run: |
           export PRIVATE_KEY="0000000000000000000000000000000000000000000000000000000000000001"
           yarn install --ignore-scripts
+          npx hardhat clean
           yarn test
