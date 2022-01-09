@@ -1,4 +1,4 @@
-﻿import {ethers} from "ethers";
+﻿import { ethers } from "ethers";
 
 export const getRevertMessage = (error) => {
   if (typeof error !== "string") error = error.message;
@@ -28,7 +28,7 @@ export const getEventData = (
       if (decoded.name === eventName)
         return {
           ...decoded,
-          ...decoded.args,
+          ...decoded.args
         };
     } catch (error) {}
   }

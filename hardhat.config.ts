@@ -73,6 +73,6 @@ export default {
     outDir: "build/typechain",
     target: "ethers-v5",
     alwaysGenerateOverloads: false,
-    externalArtifacts: ["externalArtifacts/*.json"],
-  },
+    externalArtifacts: ["externalArtifacts/*.json"]
+  }
 };

@@ -2,7 +2,7 @@
 import { ethers as tsEthers } from "ethers";
 import { expect } from "chai";
 import { getEventData } from "./utils";
-import {Token, Token__factory} from "../build/typechain";
+import { Token, Token__factory } from "../build/typechain";
 
 let token: Token;
 let deployer: tsEthers.Signer;
@@ -11,8 +11,7 @@ let user: tsEthers.Wallet;
 describe("ERC20 Token", () => {
   before(async () => {
     deployer = (await ethers.getSigners())[0];
-    token = await new Token__factory(deployer)
-      .deploy("Token", "TKN", 18);
+    token = await new Token__factory(deployer).deploy("Token", "TKN", 18);
   });
 
   it("Should mint tokens to deployer", async () => {
@@ -51,10 +50,9 @@ describe("ERC20 Token", () => {
     for (let ownerFunction of ownerFunctions) {
       let result;
       try {
-        result = await ownerFunction()
+        result = await ownerFunction();
       } catch (error) {
-        expect(error.toString())
-          .to.include("Ownable: caller is not the owner");
+        expect(error.toString()).to.include("Ownable: caller is not the owner");
         continue;
       }
       throw new Error("Allowed user to call protected functions");
