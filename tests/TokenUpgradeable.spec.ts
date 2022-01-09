@@ -1,10 +1,11 @@
 ﻿import { ethers } from "hardhat";
 import { ethers as tsEthers } from "ethers";
 import { expect } from "chai";
-import { getEventData, getRevertMessage } from "./utils";
+import { getEventData } from "./utils";
 import { deployProxy } from "../scripts/deploy/utils";
+import { TokenUpgradeable } from "../build/typechain";
 
-let token: tsEthers.Contract;
+let token: TokenUpgradeable;
 let deployer: tsEthers.Signer;
 let user: tsEthers.Wallet;
 
@@ -16,7 +17,7 @@ describe("ERC20 Token Upgradeable", () => {
       ["Token", "TKN", 18],
       deployer,
       1
-    );
+    ) as TokenUpgradeable;
   });
 
   it("Should mint tokens to deployer", async () => {
@@ -48,16 +49,17 @@ describe("ERC20 Token Upgradeable", () => {
     // List protected functions.
     let userToken = token.connect(user);
     const ownerFunctions = [
-      async () => await userToken.mint(user.address, "1"),
-      async () => await userToken.burn(user.address, "1")
+      () => userToken.mint(user.address, "1"),
+      () => userToken.burn(user.address, "1")
     ];
     // Assert that all protected functions revert when called from an user.
     for (let ownerFunction of ownerFunctions) {
+      let result;
       try {
-        await ownerFunction();
+        result = await ownerFunction()
       } catch (error) {
-        const revertReason = getRevertMessage(error);
-        expect(revertReason).to.equal("Ownable: caller is not the owner");
+        expect(error.toString())
+          .to.include("Ownable: caller is not the owner");
         continue;
       }
       throw new Error("Allowed user to call protected functions");
