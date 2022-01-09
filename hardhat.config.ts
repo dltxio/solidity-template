@@ -7,6 +7,9 @@ import "@nomiclabs/hardhat-etherscan";
 import "hardhat-contract-sizer";
 import "./scripts/tasks";
 import "solidity-coverage";
+import "@typechain/hardhat";
+import "@nomiclabs/hardhat-ethers";
+import "@nomiclabs/hardhat-waffle";
 import { ethers } from "ethers";
 
 const defaultKey =
@@ -65,5 +68,11 @@ export default {
         }
       }
     ]
-  }
+  },
+  typechain: {
+    outDir: "build/typechain",
+    target: "ethers-v5",
+    alwaysGenerateOverloads: false,
+    externalArtifacts: ["externalArtifacts/*.json"],
+  },
 };
