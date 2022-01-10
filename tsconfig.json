@@ -15,6 +15,6 @@
       "mocha"
     ]
   },
-  "include": ["./scripts", "./test", "./typechain"],
+  "include": ["./scripts"],
   "files": ["./hardhat.config.ts"]
 }
