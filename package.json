@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "prepare": "husky install",
+    "postinstall":"typechain",
     "hh:compile": "npx hardhat compile && npx hardhat size-contracts",
     "hh:deploy": "npx hardhat compile && npx ts-node scripts/deploy/index.ts",
     "hh:upgrade": "npx hardhat compile && npx ts-node scripts/deploy/index.ts upgrade-contracts",
