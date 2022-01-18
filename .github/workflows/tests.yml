@@ -18,3 +18,14 @@ jobs:
           export PRIVATE_KEY="0000000000000000000000000000000000000000000000000000000000000001"
           yarn install --ignore-scripts
           yarn test
+      - name: Run coverage report
+        run: ./node_modules/.bin/hardhat coverage
+      - name: Post coverage report
+        uses: eleboys/test-coverage-report-action@v1.0.2
+        id: report
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: ./coverage.json
+          title: Solidity Test Coverage
+      - name: Print coverage report
+        run: echo "Report coverage json ${{ steps.report.outputs.summary }}"
