@@ -27,6 +27,10 @@ describe("ERC20 Token Upgradeable", () => {
       value: ethers.utils.parseEther("1")
     });
   });
+  
+  it("Should return the correct decimal count", async () => {
+    expect(await token.decimals()).to.equal(18);
+  });
 
   it("Should mint tokens to deployer", async () => {
     const amount = ethers.BigNumber.from("10");

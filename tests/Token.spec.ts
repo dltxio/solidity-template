@@ -24,7 +24,7 @@ describe("ERC20 Token", () => {
     });
   });
   
-  it ("Should return the correct decimal count", async () => {
+  it("Should return the correct decimal count", async () => {
     expect(await token.decimals()).to.equal(18);
   });
 
