@@ -53,7 +53,7 @@ describe("ERC20 Token", () => {
     ];
     // Assert that all protected functions revert when called from an user.
     for (let ownerFunction of ownerFunctions) {
-      expect(ownerFunction())
+      await expect(ownerFunction())
         .to.be.revertedWith("Ownable: caller is not the owner");
     }
   });
