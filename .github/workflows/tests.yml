@@ -19,7 +19,7 @@ jobs:
           yarn install --ignore-scripts
           yarn test
       - name: Run coverage report
-        run: ./node_modules/.bin/hardhat coverage
+        run: npx hardhat coverage
       - name: Post coverage report
         uses: eleboys/test-coverage-report-action@v1.0.2
         id: report
