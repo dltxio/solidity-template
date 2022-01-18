@@ -20,7 +20,4 @@ jobs:
           yarn test
           yarn coverage
       - name: Post coverage report
-        uses: pi-chan/simplecov-report-group-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          resultPath: ./coverage.json
+        uses: romeovs/lcov-reporter-action@v0.2.16
