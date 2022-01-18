@@ -13,19 +13,17 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
-      - name: Run unit tests
-        run: |
-          export PRIVATE_KEY="0000000000000000000000000000000000000000000000000000000000000001"
-          yarn install --ignore-scripts
-          yarn test
-      - name: Run coverage report
-        run: npx hardhat coverage
-      - name: Post coverage report
+      - name: Run unit tests and report coverage
         uses: eleboys/test-coverage-report-action@v1.0.2
-        id: report
+        id: tests
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           path: ./coverage.json
           title: Solidity Test Coverage
+        run: |
+          export PRIVATE_KEY="0000000000000000000000000000000000000000000000000000000000000001"
+          yarn install --ignore-scripts
+          yarn test
+          ./node_modules/.bin/hardhat coverage
       - name: Print coverage report
-        run: echo "Report coverage json ${{ steps.report.outputs.summary }}"
+        run: echo "Report coverage json ${{ steps.tests.outputs.summary }}"
