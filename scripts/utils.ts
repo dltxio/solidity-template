@@ -39,7 +39,7 @@ export const getLedgerSigner = (index: number, provider: any): LedgerSigner => {
  * The package.json also uses "resolutions" to upgrade the ledger
  * dependencies to the correct version.
  */
-export const ledgerSignTransaction = async (
+export async function ledgerSignTransaction(
   transaction: ethers.providers.TransactionRequest
 ): Promise<string> => {
   const tx = await ethers.utils.resolveProperties(transaction);
