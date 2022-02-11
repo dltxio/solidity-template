@@ -41,7 +41,7 @@ export const getLedgerSigner = (index: number, provider: any): LedgerSigner => {
  */
 export async function ledgerSignTransaction(
   transaction: ethers.providers.TransactionRequest
-): Promise<string> => {
+): Promise<string> {
   const tx = await ethers.utils.resolveProperties(transaction);
   const baseTx: ethers.utils.UnsignedTransaction = {
     chainId: tx.chainId || undefined,
