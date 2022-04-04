@@ -23,6 +23,7 @@ yarn-error.log*
 
 build/
 .env
+!.env.development
 
 cache/
 artifacts/
