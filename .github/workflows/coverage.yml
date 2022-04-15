@@ -1,11 +1,11 @@
 name: CI
 on:
-  push:
+  pull_request:
     branches: [master]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 jobs:
-  test:
+  test-coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,3 +15,7 @@ jobs:
           yarn install
           yarn test
           yarn coverage
+      - name: Post coverage report
+        uses: romeovs/lcov-reporter-action@v0.2.16
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
