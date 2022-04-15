@@ -1,6 +1,5 @@
 name: CI
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [master]
   pull_request:
@@ -10,7 +9,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
       - name: Run unit tests and coverage
@@ -21,5 +19,6 @@ jobs:
           yarn coverage
       - name: Post coverage report
         uses: romeovs/lcov-reporter-action@v0.2.16
+        if: ${{ github.event_name == "pull_request" }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
