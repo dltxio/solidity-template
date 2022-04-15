@@ -2,17 +2,17 @@
 import { ethers as tsEthers } from "ethers";
 import { expect } from "chai";
 import { getEventData } from "./utils";
+import {Token, Token__factory} from "../build/typechain";
 
-let token: tsEthers.Contract;
+let token: Token;
 let deployer: tsEthers.Signer;
 let user: tsEthers.Wallet;
 
 describe("ERC20 Token", () => {
   before(async () => {
     deployer = (await ethers.getSigners())[0];
-    token = await (
-      await ethers.getContractFactory("Token")
-    ).deploy("Token", "TKN", 18);
+    token = await new Token__factory(deployer)
+      .deploy("Token", "TKN", 18);
     user = new ethers.Wallet(
       "0xbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeef",
       deployer.provider

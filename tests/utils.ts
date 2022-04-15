@@ -1,4 +1,4 @@
-﻿import {ethers} from "ethers";
+﻿import { ethers } from "ethers";
 
 export const getEventData = (
   eventName: string,
@@ -12,7 +12,7 @@ export const getEventData = (
       if (decoded.name === eventName)
         return {
           ...decoded,
-          ...decoded.args,
+          ...decoded.args
         };
     } catch (error) {}
   }

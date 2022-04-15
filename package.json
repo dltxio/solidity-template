@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "prepare": "husky install",
+    "postinstall": "npx hardhat compile",
     "hh:compile": "npx hardhat compile && npx hardhat size-contracts",
     "hh:deploy": "npx hardhat compile && npx ts-node scripts/deploy/index.ts",
     "hh:upgrade": "npx hardhat compile && npx ts-node scripts/deploy/index.ts upgrade-contracts",
@@ -26,7 +27,10 @@
     "keccak": "^3.0.1",
     "rlp": "^2.2.6",
     "ts-node": "^10.0.0",
-    "typescript": "^4.3.4"
+    "typescript": "^4.3.4",
+    "typechain": "^6.1.0",
+    "@typechain/ethers-v5": "^8.0.5",
+    "@typechain/hardhat": "^3.1.0"
   },
   "resolutions": {
     "@ledgerhq/hw-app-eth": "6.7.0",
