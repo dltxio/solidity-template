@@ -13,8 +13,13 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
-      - name: Run unit tests
+      - name: Run unit tests and coverage
         run: |
           export PRIVATE_KEY="0000000000000000000000000000000000000000000000000000000000000001"
           yarn install
           yarn test
+          yarn coverage
+      - name: Post coverage report
+        uses: romeovs/lcov-reporter-action@v0.2.16
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

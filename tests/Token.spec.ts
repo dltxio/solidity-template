@@ -2,16 +2,30 @@
 import { ethers as tsEthers } from "ethers";
 import { expect } from "chai";
 import { getEventData } from "./utils";
-import { Token, Token__factory } from "../build/typechain";
 
-let token: Token;
+let token: tsEthers.Contract;
 let deployer: tsEthers.Signer;
 let user: tsEthers.Wallet;
 
 describe("ERC20 Token", () => {
   before(async () => {
     deployer = (await ethers.getSigners())[0];
-    token = await new Token__factory(deployer).deploy("Token", "TKN", 18);
+    token = await (
+      await ethers.getContractFactory("Token")
+    ).deploy("Token", "TKN", 18);
+    user = new ethers.Wallet(
+      "0xbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeef",
+      deployer.provider
+    );
+    // Send ETH to user from signer.
+    await deployer.sendTransaction({
+      to: user.address,
+      value: ethers.utils.parseEther("1000")
+    });
+  });
+  
+  it("Should return the correct decimal count", async () => {
+    expect(await token.decimals()).to.equal(18);
   });
 
   it("Should mint tokens to deployer", async () => {
@@ -31,15 +45,6 @@ describe("ERC20 Token", () => {
   });
 
   it("Should only allow deployer to mint/burn", async () => {
-    user = new ethers.Wallet(
-      "0xbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeef",
-      deployer.provider
-    );
-    // Send ETH to user from signer.
-    await deployer.sendTransaction({
-      to: user.address,
-      value: ethers.utils.parseEther("1")
-    });
     // List protected functions.
     let userToken = token.connect(user);
     const ownerFunctions = [
@@ -48,14 +53,15 @@ describe("ERC20 Token", () => {
     ];
     // Assert that all protected functions revert when called from an user.
     for (let ownerFunction of ownerFunctions) {
-      let result;
       try {
-        result = await ownerFunction();
+        await expect(ownerFunction())
+          .to.be.revertedWith("Ownable: caller is not the owner");
       } catch (error) {
-        expect(error.toString()).to.include("Ownable: caller is not the owner");
-        continue;
+        // the solidity-coverage plugin is not smart enough to run the
+        // "revertedWith" unit test, so we account for that here.
+        if (!`${error}`.includes("sender doesn't have enough funds to send tx"))
+          throw error;
       }
-      throw new Error("Allowed user to call protected functions");
     }
   });
 

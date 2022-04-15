@@ -2,7 +2,7 @@
 node_modules/
 /dist/
 
-# Local env files
+# local env files
 .env.local
 .env.*.local
 .openzeppelin/unknown-1337.json
@@ -21,13 +21,12 @@ yarn-error.log*
 *.sln
 *.sw*
 
-# Output
 build/
+.env
+!.env.development
+
 cache/
 artifacts/
-
-# Production
-.env
 
 # Solidty coverage report
 coverage.json
