@@ -3,8 +3,9 @@ import { ethers as tsEthers } from "ethers";
 import { expect } from "chai";
 import { getEventData } from "./utils";
 import { deployProxy } from "../scripts/deploy/utils";
+import {TokenUpgradeable} from "../build/typechain";
 
-let token: tsEthers.Contract;
+let token: TokenUpgradeable;
 let deployer: tsEthers.Signer;
 let user: tsEthers.Wallet;
 
@@ -16,7 +17,7 @@ describe("ERC20 Token Upgradeable", () => {
       ["Token", "TKN", 18],
       deployer,
       1
-    );
+    ) as TokenUpgradeable;
     user = new ethers.Wallet(
       "0xbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeef",
       deployer.provider
