@@ -19,6 +19,6 @@ jobs:
           yarn coverage
       - name: Post coverage report
         uses: romeovs/lcov-reporter-action@v0.2.16
-        if: ${{ github.event_name == "pull_request" }}
+        if: github.event_name == "pull_request"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
