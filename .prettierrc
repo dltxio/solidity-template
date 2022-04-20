@@ -32,7 +32,7 @@
         "trailingComma": "none",
         "useTabs": false,
         "vueIndentScriptAndStyle": false,
-        "parser": "babel"
+        "parser": "typescript"
       }
     }
   ]
