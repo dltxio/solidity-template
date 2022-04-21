@@ -11,10 +11,16 @@ let user: tsEthers.Wallet;
 describe("ERC721 Token", () => {
   before(async () => {
     deployer = (await ethers.getSigners())[0];
-    token = await new NFT__factory(deployer).deploy("ERC721Token", "NFT", 100);
     user = new ethers.Wallet(
       "0xbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeef",
       deployer.provider
+    );
+    token = await new NFT__factory(deployer).deploy(
+      "ERC721Token",
+      "NFT",
+      100,
+      user.address,
+      "https://www.cooltokens.com/"
     );
     // Send ETH to user from signer.
     await deployer.sendTransaction({
@@ -63,6 +69,18 @@ describe("ERC721 Token", () => {
     await token.mint(5, user.address);
     const balance = await token.balanceOf(user.address);
     expect(balance).to.equal(5);
+
+    //Check token ID
+    const currentTokenId = await token.getLastTokenId();
+    expect(currentTokenId === ethers.utils.parseEther("5"));
+  });
+
+  it("Should set token URI", async () => {
+    const currentTokenId = await token.getLastTokenId();
+    const tokenUri = await token.tokenURI(currentTokenId);
+    const baseUri = await token.getBaseURI();
+    const fullUri = baseUri + "/" + currentTokenId + ".json";
+    expect(tokenUri === fullUri);
   });
 
   //Time out in for loop if trying to test other colors, but logic is same
@@ -74,6 +92,12 @@ describe("ERC721 Token", () => {
     );
   });
 
+  it("Should set the base URI", async () => {
+    await token.setBaseURI("https://newbaseuri.com");
+    const newBaseUri = await token.getBaseURI();
+    expect(newBaseUri === "https://newbaseuri.com");
+  });
+
   it("Should only allow owner to call renounceOwnership and new owner always be the fixed address ", async () => {
     await expect(token.connect(user).renounceOwnership()).to.be.revertedWith(
       "Ownable: caller is not the owner"
@@ -81,10 +105,10 @@ describe("ERC721 Token", () => {
 
     await token.renounceOwnership();
     const newOwner = await token.owner();
-    expect(newOwner).to.equal("0x1156B992b1117a1824272e31797A2b88f8a7c729"); //this the fixed new owner address
+    expect(newOwner).to.equal(user.address); //this the fixed new owner address
 
-    await expect(token.renounceOwnership()).to.be.revertedWith(
-      "Ownable: caller is not the owner"
-    );
+    await expect(
+      token.connect(deployer).renounceOwnership()
+    ).to.be.revertedWith("Ownable: caller is not the owner");
   });
 });

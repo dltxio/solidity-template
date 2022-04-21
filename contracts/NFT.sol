@@ -10,9 +10,8 @@ contract NFT is ERC721Enumerable, Ownable {
     address private immutable _self;
     string private baseURI;
 
-    // This address is used for if current owner want to renounceOwnership, it will always be the same address
-    address private constant fixedOwnerAddress =
-        0x1156B992b1117a1824272e31797A2b88f8a7c729;
+    // This address is used for if current owner want to renounceOwnership
+    address private immutable fixedOwnerAddress;
 
     uint16 public maxTokens;
 
@@ -20,13 +19,20 @@ contract NFT is ERC721Enumerable, Ownable {
 
     bool public isSaleActive;
 
+    event BaseUriChanged(string indexed newBaseUri);
+    event SaleStatusChanged(bool updatedSaleStatus);
+
     constructor(
         string memory name_,
         string memory symbol_,
-        uint16 _maxTokens
+        uint16 _maxTokens,
+        address _fixedOwnerAddress,
+        string memory _baseURI
     ) ERC721(name_, symbol_) {
         _self = address(this);
         maxTokens = _maxTokens;
+        fixedOwnerAddress = _fixedOwnerAddress;
+        baseURI = _baseURI;
     }
 
     // MODIFIERS
@@ -63,14 +69,16 @@ contract NFT is ERC721Enumerable, Ownable {
     // ONLY OWNER FUNCTIONS
     function setBaseURI(string memory _baseURI) external onlyOwner {
         baseURI = _baseURI;
+        emit BaseUriChanged(_baseURI);
     }
 
     function toggleSaleStatus() external onlyOwner {
         isSaleActive = !isSaleActive;
+        emit SaleStatusChanged(isSaleActive);
     }
 
     // SUPPORTING FUNCTIONS
-    function nextTokenId() private returns (uint256) {
+    function increasedTokenId() private returns (uint256) {
         tokenCounter.increment();
         return tokenCounter.current();
     }
@@ -87,7 +95,7 @@ contract NFT is ERC721Enumerable, Ownable {
         canMintTokens(numberOfTokens)
     {
         for (uint256 i = 0; i < numberOfTokens; i++) {
-            _safeMint(userAddress, nextTokenId());
+            _safeMint(userAddress, increasedTokenId());
         }
     }
 

@@ -14,7 +14,9 @@ export const deployNFT = async (
   const contract = await NFT.deploy(
     constructorArguments[0],
     constructorArguments[1],
-    constructorArguments[2]
+    constructorArguments[2],
+    constructorArguments[3],
+    constructorArguments[4]
   );
   await contract.deployTransaction.wait(waitCount);
   return contract;
