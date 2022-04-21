@@ -77,13 +77,18 @@ describe("ERC721 Token", () => {
 
   it("Should set token URI", async () => {
     const currentTokenId = await token.getLastTokenId();
-    const tokenUri = await token.tokenURI(currentTokenId);
+    const currentTokenUri = await token.tokenURI(currentTokenId);
     const baseUri = await token.getBaseURI();
     const fullUri = baseUri + "/" + currentTokenId + ".json";
-    expect(tokenUri === fullUri);
+    expect(currentTokenUri === fullUri);
+
+    //Check non-existant token URI returns error
+    const unmintedTokenId = currentTokenId.add(1);
+    await expect(token.tokenURI(unmintedTokenId)).to.be.revertedWith(
+      "Nonexistent token"
+    );
   });
 
-  //Time out in for loop if trying to test other colors, but logic is same
   it("Should not mint more than max number of passes", async () => {
     //Already minted 5, max is 100, need to mint 95 more
     await token.mint(95, user.address);
