@@ -23,9 +23,13 @@ contract NFT is ERC721Enumerable, Ownable {
     /** @dev The maximum supply of tokens. */
     uint16 public immutable maxTokens;
 
+    /** @dev Sets whether minting if enabled. */
     bool public isMintEnabled;
 
+    /** @dev Emits event for when base URI changes */
     event BaseUriChanged(string indexed newBaseUri);
+
+    /** @dev Emits event for when minting is enabled/disabled */
     event MintStatusChanged(bool updatedMintStatus);
 
     constructor(
