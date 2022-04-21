@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract NFT is ERC721Enumerable, Ownable {
+    /** @dev Counts the number of tokens minted */
     using Counters for Counters.Counter;
 
     /** @dev This contract's address. */
