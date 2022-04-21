@@ -1,8 +1,9 @@
 import { ethers, upgrades } from "hardhat";
 import { ethers as tsEthers } from "ethers";
 import { getLedgerSigner } from "../utils";
-import { NFT__factory } from "../../build/typechain";
+import { NFT__factory, NFTa__factory } from "../../build/typechain";
 import { NftConstructorArguments } from "./contracts/NFT";
+import { NftAConstructorArguments } from "./contracts/NFTa";
 
 export const deployNFT = async (
   constructorArguments: NftConstructorArguments,
@@ -17,6 +18,21 @@ export const deployNFT = async (
     constructorArguments[2],
     constructorArguments[3],
     constructorArguments[4]
+  );
+  await contract.deployTransaction.wait(waitCount);
+  return contract;
+};
+
+export const deployNFTa = async (
+  constructorArguments: NftAConstructorArguments,
+  signer?: tsEthers.Signer,
+  waitCount: number = 1
+) => {
+  signer = signer ?? (await getSignerForDeployer());
+  const NFTa = new NFTa__factory(signer);
+  const contract = await NFTa.deploy(
+    constructorArguments[0],
+    constructorArguments[1]
   );
   await contract.deployTransaction.wait(waitCount);
   return contract;
