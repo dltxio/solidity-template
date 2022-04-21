@@ -16,8 +16,8 @@ export const constructorArguments: () => NftConstructorArguments = () => [
   process.env.CONSTRUCTOR_NFT_NAME,
   process.env.CONSTRUCTOR_NFT_SYMBOL,
   process.env.CONSTRUCTOR_NFT_MAX,
-  process.env.CONSTRUCTOR_FIXED_OWNER_ADDRESS,
-  process.env.CONSTRUCTOR_BASE_URI
+  process.env.CONSTRUCTOR_NFT_FIXED_OWNER_ADDRESS,
+  process.env.CONSTRUCTOR_NFT_BASE_URI
 ];
 
 export const deploy = async (deployer, setAddresses) => {

@@ -36,29 +36,29 @@ describe("ERC721 Token", () => {
     expect(verifyAddress === true);
 
     //Check sale active status
-    expect((await token.isSaleActive()) === false);
+    expect((await token.isMintEnabled()) === false);
   });
 
   it("Should return sale active status", async () => {
-    await token.toggleSaleStatus();
-    expect((await token.isSaleActive()) === true);
+    await token.toggleMintStatus();
+    expect((await token.isMintEnabled()) === true);
   });
 
   it("Should only allow owner to toggle if sale is active", async () => {
-    await expect(token.connect(user).toggleSaleStatus()).to.be.revertedWith(
+    await expect(token.connect(user).toggleMintStatus()).to.be.revertedWith(
       "Ownable: caller is not the owner"
     );
   });
 
   it("Should only mint NFTs if the sale is active", async () => {
-    await token.toggleSaleStatus();
+    await token.toggleMintStatus();
     await expect(token.mint(5, user.address)).to.be.revertedWith(
-      "Sale is not active"
+      "Minting is not enabled"
     );
   });
 
   it("Should only allow owner to mint a pass", async () => {
-    await token.toggleSaleStatus();
+    await token.toggleMintStatus();
     await expect(token.connect(user).mint(5, user.address)).to.be.revertedWith(
       "Ownable: caller is not the owner"
     );

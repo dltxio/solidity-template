@@ -7,20 +7,26 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract NFT is ERC721Enumerable, Ownable {
     using Counters for Counters.Counter;
+
+    /** @dev This contract's address. */
     address private immutable _self;
+
+    /** @dev The base NFT URI. **/
     string private baseURI;
 
-    // This address is used for if current owner want to renounceOwnership
+    /** @dev This address is used for if current owner want to renounceOwnership. */
     address private immutable fixedOwnerAddress;
 
-    uint16 public maxTokens;
-
+    /** @dev Counter to keep track of tokens minted. */
     Counters.Counter private tokenCounter;
 
-    bool public isSaleActive;
+    /** @dev The maximum supply of tokens. */
+    uint16 public immutable maxTokens;
+
+    bool public isMintEnabled;
 
     event BaseUriChanged(string indexed newBaseUri);
-    event SaleStatusChanged(bool updatedSaleStatus);
+    event MintStatusChanged(bool updatedMintStatus);
 
     constructor(
         string memory name_,
@@ -36,8 +42,8 @@ contract NFT is ERC721Enumerable, Ownable {
     }
 
     // MODIFIERS
-    modifier saleActive() {
-        require(isSaleActive, "Sale is not active");
+    modifier mintEnabled() {
+        require(isMintEnabled, "Minting is not enabled");
         _;
     }
 
@@ -72,9 +78,9 @@ contract NFT is ERC721Enumerable, Ownable {
         emit BaseUriChanged(_baseURI);
     }
 
-    function toggleSaleStatus() external onlyOwner {
-        isSaleActive = !isSaleActive;
-        emit SaleStatusChanged(isSaleActive);
+    function toggleMintStatus() external onlyOwner {
+        isMintEnabled = !isMintEnabled;
+        emit MintStatusChanged(isMintEnabled);
     }
 
     // SUPPORTING FUNCTIONS
@@ -90,7 +96,7 @@ contract NFT is ERC721Enumerable, Ownable {
     // FUNCTION FOR MINTING
     function mint(uint256 numberOfTokens, address userAddress)
         external
-        saleActive
+        mintEnabled
         onlyOwner
         canMintTokens(numberOfTokens)
     {
