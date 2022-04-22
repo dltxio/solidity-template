@@ -25,7 +25,7 @@ export const constructorArguments: () => NftConstructorArguments = () => [
 const deployNFT = async (
   constructorArguments: NftConstructorArguments,
   signer?: tsEthers.Signer,
-  waitCount: number = 1
+  waitCount = 1
 ) => {
   signer = signer ?? (await getSignerForDeployer());
   const NFT = new NFT__factory(signer);

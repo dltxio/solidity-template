@@ -32,9 +32,9 @@ export const deploy = async () => {
   console.log(`balance is ${ethers.utils.formatEther(balance)} ETH`);
   // Define deployment routines.
   // Execute deployment routines.
-  for (let routine of DeploymentModules) {
+  for (const routine of DeploymentModules) {
     let foundArg = false;
-    for (let arg of routine.contractNames()) {
+    for (const arg of routine.contractNames()) {
       if (!process.argv.includes(arg)) continue;
       foundArg = true;
     }

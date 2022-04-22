@@ -6,7 +6,7 @@ export const deployContract = async (
   contractName: string,
   constructorArguments: any[],
   signer?: tsEthers.Signer,
-  waitCount: number = 1
+  waitCount = 1
 ) => {
   signer = signer ?? (await getSignerForDeployer());
   const Contract = (await ethers.getContractFactory(contractName)).connect(
@@ -35,7 +35,7 @@ export const getContractAddressFromConfigKey = (
   const rootResult = searchInObject(configForNetwork);
   if (rootResult != null) return rootResult;
   // Search in inner config objects, i.e. thirdPartyContracts.
-  for (let key in configForNetwork) {
+  for (const key in configForNetwork) {
     const object = configForNetwork[key];
     if (typeof object !== "object" || object == null) continue;
     const result = searchInObject(object);

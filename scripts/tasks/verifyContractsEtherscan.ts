@@ -6,8 +6,8 @@ task("verify-contracts-etherscan").setAction(async (args, hre) => {
   const networkContracts = contracts[hre.network.name];
   const contractDeploymentModules = (await import("../deploy/contracts"))
     .default;
-  for (let module of contractDeploymentModules) {
-    for (let contract of module.contractNames()) {
+  for (const module of contractDeploymentModules) {
+    for (const contract of module.contractNames()) {
       if (!networkContracts[contract]) continue;
       console.log(`attempting to verify contract "${contract}"`);
       await verifyOnEtherscan(

@@ -10,7 +10,7 @@ export type NftAConstructorArguments = [string, string];
 const deployNFTa = async (
   constructorArguments: NftAConstructorArguments,
   signer?: tsEthers.Signer,
-  waitCount: number = 1
+  waitCount = 1
 ) => {
   signer = signer ?? (await getSignerForDeployer());
   const NFTa = new NFTa__factory(signer);
