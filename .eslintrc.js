@@ -9,6 +9,9 @@ module.exports = {
         "plugin:@typescript-eslint/recommended",
         "plugin:prettier/recommended"
     ],
+    rules: {
+        "@typescript-eslint/ban-ts-comment": "off"
+    },
     root: true,
     env: {
         node: true
