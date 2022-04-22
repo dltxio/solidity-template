@@ -3,8 +3,6 @@ import contracts from "../../contracts.json";
 import { ethers as tsEthers } from "ethers";
 import { getLedgerSigner } from "../utils";
 
-const hello = "bob";
-
 task("read-balance")
   .addParam("address")
   .setAction(async (args, hre) => {
