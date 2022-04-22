@@ -1,32 +1,12 @@
 import { ethers, upgrades } from "hardhat";
 import { ethers as tsEthers } from "ethers";
 import { getLedgerSigner } from "../utils";
-import { NFT__factory } from "../../build/typechain";
-import { NftConstructorArguments } from "./contracts/NFT";
-
-export const deployNFT = async (
-  constructorArguments: NftConstructorArguments,
-  signer?: tsEthers.Signer,
-  waitCount: number = 1
-) => {
-  signer = signer ?? (await getSignerForDeployer());
-  const NFT = new NFT__factory(signer);
-  const contract = await NFT.deploy(
-    constructorArguments[0],
-    constructorArguments[1],
-    constructorArguments[2],
-    constructorArguments[3],
-    constructorArguments[4]
-  );
-  await contract.deployTransaction.wait(waitCount);
-  return contract;
-};
 
 export const deployContract = async (
   contractName: string,
   constructorArguments: any[],
   signer?: tsEthers.Signer,
-  waitCount: number = 1
+  waitCount = 1
 ) => {
   signer = signer ?? (await getSignerForDeployer());
   const Contract = (await ethers.getContractFactory(contractName)).connect(
@@ -55,7 +35,7 @@ export const getContractAddressFromConfigKey = (
   const rootResult = searchInObject(configForNetwork);
   if (rootResult != null) return rootResult;
   // Search in inner config objects, i.e. thirdPartyContracts.
-  for (let key in configForNetwork) {
+  for (const key in configForNetwork) {
     const object = configForNetwork[key];
     if (typeof object !== "object" || object == null) continue;
     const result = searchInObject(object);

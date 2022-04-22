@@ -2,7 +2,7 @@
 import { ethers as tsEthers } from "ethers";
 import { expect } from "chai";
 import { getEventData } from "./utils";
-import {Token, Token__factory} from "../build/typechain";
+import { Token, Token__factory } from "../build/typechain";
 
 let token: Token;
 let deployer: tsEthers.Signer;
@@ -11,8 +11,7 @@ let user: tsEthers.Wallet;
 describe("ERC20 Token", () => {
   before(async () => {
     deployer = (await ethers.getSigners())[0];
-    token = await new Token__factory(deployer)
-      .deploy("Token", "TKN", 18);
+    token = await new Token__factory(deployer).deploy("Token", "TKN", 18);
     user = new ethers.Wallet(
       "0xbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeef",
       deployer.provider
@@ -23,7 +22,7 @@ describe("ERC20 Token", () => {
       value: ethers.utils.parseEther("1000")
     });
   });
-  
+
   it("Should return the correct decimal count", async () => {
     expect(await token.decimals()).to.equal(18);
   });
@@ -54,8 +53,9 @@ describe("ERC20 Token", () => {
     // Assert that all protected functions revert when called from an user.
     for (let ownerFunction of ownerFunctions) {
       try {
-        await expect(ownerFunction())
-          .to.be.revertedWith("Ownable: caller is not the owner");
+        await expect(ownerFunction()).to.be.revertedWith(
+          "Ownable: caller is not the owner"
+        );
       } catch (error) {
         // the solidity-coverage plugin is not smart enough to run the
         // "revertedWith" unit test, so we account for that here.
