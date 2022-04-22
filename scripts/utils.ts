@@ -76,7 +76,7 @@ export async function ledgerSignTransaction(
     r: "0x" + sig.r,
     s: "0x" + sig.s
   });
-};
+}
 
 export const getGasPriceFromEnv = (): ethers.BigNumber => {
   const gasPrice = ethers.BigNumber.from(

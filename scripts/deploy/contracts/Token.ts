@@ -1,5 +1,5 @@
 import { deployContract } from "../utils";
-import {Token} from "../../../build/typechain";
+import { Token } from "../../../build/typechain";
 
 export const contractNames = () => ["token"];
 
@@ -11,12 +11,12 @@ export const constructorArguments = () => [
 
 export const deploy = async (deployer, setAddresses) => {
   console.log("deploying Token");
-  const token: Token = await deployContract(
+  const token: Token = (await deployContract(
     "Token",
     constructorArguments(),
     deployer,
     1
-  ) as Token;
+  )) as Token;
   console.log(`deployed Token to address ${token.address}`);
   setAddresses({ token: token.address });
   return token;
