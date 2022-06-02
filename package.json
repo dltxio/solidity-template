@@ -47,12 +47,13 @@
     "@types/dotenv": "^8.2.0",
     "@types/mocha": "^9.0.0",
     "@types/node": "^15.12.4",
-    "erc721a": "^3.2.0",
-    "eslint": "^8.13.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "erc721a": "^3.2.0",
+    "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "hardhat-gas-reporter": "^1.0.8",
     "husky": "^7.0.2",
     "prettier": "^2.4.0",
     "prettier-plugin-solidity": "^1.0.0-beta.18",
@@ -61,8 +62,8 @@
   },
   "lint-staged": {
     "*.ts": [
-        "eslint",
-        "prettier --write"
+      "eslint",
+      "prettier --write"
     ]
   }
 }
