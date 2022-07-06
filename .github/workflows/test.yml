@@ -24,6 +24,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+    - name: Make .env file
+      run: cp .env.development .env
     - name: Run Slither
       uses: crytic/slither-action@v0.1.1
       continue-on-error: true
