@@ -28,7 +28,9 @@ export default {
   paths: {
     sources: "./contracts",
     cache: "./cache",
-    artifacts: "./build",
+    artifacts: !process.env.USE_DEFAULT_ARTIFACTS_FOLDER
+      ? "./build"
+      : undefined,
     tests: "./tests"
   },
   networks: {

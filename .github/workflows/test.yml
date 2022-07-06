@@ -32,8 +32,8 @@ jobs:
         set -a # automatically export all variables
         source .env
         set +a
-    - name: Install dependencies
-      run: yarn
+    - name: Use the default artifacts folder before running Slither
+      run: export USE_DEFAULT_ARTIFACTS_FOLDER=true
     - name: Run Slither
       uses: crytic/slither-action@v0.1.1
       continue-on-error: false
