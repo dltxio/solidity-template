@@ -41,7 +41,6 @@ jobs:
       with:
         node-version: 16
         sarif: results.sarif
-        target: contracts
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v2
       with:
