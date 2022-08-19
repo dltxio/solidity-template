@@ -19,7 +19,7 @@
     "@chainlink/contracts": "^0.1.6",
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
-    "@openzeppelin/contracts": "^4.4.2",
+    "@openzeppelin/contracts": "^4.7.3",
     "@typechain/ethers-v5": "^8.0.5",
     "@typechain/hardhat": "^3.1.0",
     "chai": "^4.3.4",
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@ethersproject/hardware-wallets": "^5.4.0",
     "@nomiclabs/hardhat-etherscan": "^2.1.6",
-    "@openzeppelin/contracts-upgradeable": "^4.4.2",
+    "@openzeppelin/contracts-upgradeable": "^4.7.3",
     "@openzeppelin/hardhat-upgrades": "^1.10.0",
     "@types/dotenv": "^8.2.0",
     "@types/mocha": "^9.0.0",
