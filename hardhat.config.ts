@@ -46,18 +46,14 @@ export default {
       ],
       allowUnlimitedContractSize: false
     },
-    kovan: {
-      url: process.env.KOVAN_URL || defaultRpcUrl,
-      accounts: [process.env.PRIVATE_KEY || defaultKey]
-    },
-    rinkeby: {
-      url: process.env.RINKEBY_URL || defaultRpcUrl,
-      accounts: [process.env.PRIVATE_KEY || defaultKey]
-    },
     mainnet: {
       url: process.env.MAINNET_URL || defaultRpcUrl,
       accounts: [process.env.PRIVATE_KEY || defaultKey]
-    }
+    },
+    goerli: {
+      url: process.env.GOERLI_URL || defaultRpcUrl,
+      accounts: [process.env.PRIVATE_KEY || defaultKey]
+    },
   },
   etherscan: {
     // Obtain etherscan API key at https://etherscan.io/
