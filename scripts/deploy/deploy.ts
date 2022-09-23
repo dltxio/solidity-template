@@ -30,21 +30,17 @@ export const deploy = async () => {
   );
   const balance = await deployer.getBalance();
   console.log(`balance is ${ethers.utils.formatEther(balance)} ETH`);
-  // Define deployment routines.
   // Execute deployment routines.
-  for (const routine of DeploymentModules) {
-    let foundArg = false;
-    for (const arg of routine.contractNames()) {
-      if (!process.argv.includes(arg)) continue;
-      foundArg = true;
-    }
-    // Abort if argument not passed to script.
-    if (!foundArg) continue;
-    // Upgrade or deploy.
-    if (!isUpgrading) {
-      await routine.deploy(deployer, setAddresses, addresses);
-    } else if (routine.upgrade != null) {
-      await routine.upgrade(deployer, addresses);
+  for (let module of DeploymentModules) {
+    for (let arg of process.argv) {
+      const deploymentNames = module.deployments().map((d) => d.name);
+      if (!deploymentNames.includes(arg)) continue;
+      // Upgrade or deploy.
+      if (!isUpgrading) {
+        await module.deploy(arg, deployer, setAddresses, addresses);
+      } else if (module.upgrade != null) {
+        await module.upgrade(arg, deployer, addresses);
+      }
     }
   }
   const delta = balance.sub(await deployer.getBalance());
