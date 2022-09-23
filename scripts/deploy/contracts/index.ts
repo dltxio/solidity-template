@@ -13,11 +13,15 @@ export type Deployment = {
   constructorArguments: string[];
 };
 
+export type Addresses = {[deploymentName: string]: string}; 
+
+export type SetAddresses = (addresses: Addresses) => void;
+
 export type DeploymentFunction = (
   name: string,
   deployer: Signer,
-  setAddresses: Function,
-  addresses?: any
+  setAddresses: SetAddresses,
+  addresses?: Addresses
 ) => Promise<Contract>;
 
 export type UpgradeFunction = (
