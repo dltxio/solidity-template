@@ -20,8 +20,6 @@
         "endOfLine": "lf",
         "htmlWhitespaceSensitivity": "css",
         "insertPragma": false,
-        "jsxBracketSameLine": false,
-        "jsxSingleQuote": false,
         "printWidth": 80,
         "proseWrap": "preserve",
         "quoteProps": "as-needed",
@@ -32,7 +30,8 @@
         "trailingComma": "none",
         "useTabs": false,
         "vueIndentScriptAndStyle": false,
-        "parser": "typescript"
+        "parser": "typescript",
+        "BracketSameLine": false
       }
     }
   ]
