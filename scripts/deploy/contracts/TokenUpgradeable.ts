@@ -1,27 +1,39 @@
-import { deployProxy, upgradeProxy } from "../utils";
-import { TokenUpgradeable } from "../../../build/typechain";
+import {
+  deployContract,
+  deployProxy,
+  getDeployment,
+  upgradeProxy
+} from "../utils";
+import {Token, TokenUpgradeable} from "../../../build/typechain";
+import {DeploymentFunction, SetAddresses} from "./index";
+import {Signer} from "ethers";
 
-export const contractNames = () => ["token-upgradeable"];
-
-export const constructorArguments = () => [
+const constructorArguments = [
   process.env.CONSTRUCTOR_TOKEN_NAME,
   process.env.CONSTRUCTOR_TOKEN_SYMBOL,
   process.env.CONSTRUCTOR_TOKEN_DECIMALS
 ];
 
-export const deploy = async (deployer, setAddresses) => {
-  console.log("deploying TokenTokenUpgradeable");
-  const tokenUpgradeable: TokenUpgradeable = (await deployProxy(
+export const deployments = () => [{
+  name: "token-upgradeable",
+  constructorArguments
+}];
+
+export const deploy: DeploymentFunction = async (
+  deploymentName: string,
+  deployer: Signer,
+  setAddresses: SetAddresses
+) => {
+  const deployment = getDeployment(deploymentName, deployments());
+  console.log(`deploying ${deploymentName}`);
+  const contract = await deployContract(
     "TokenUpgradeable",
-    constructorArguments(),
-    deployer,
-    1
-  )) as TokenUpgradeable;
-  console.log(
-    `deployed TokenUpgradeable to address ${tokenUpgradeable.address}`
-  );
-  setAddresses({ tokenUpgradeable: tokenUpgradeable.address });
-  return tokenUpgradeable;
+    deployment.constructorArguments,
+    deployer
+  ) as Token;
+  console.log(`deployed ${deploymentName} to ${contract.address}`);
+  setAddresses({ [deploymentName]: contract.address });
+  return contract;
 };
 
 export const upgrade = async (deployer, addresses) => {

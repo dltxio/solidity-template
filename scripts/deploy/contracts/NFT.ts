@@ -1,20 +1,9 @@
-import { ethers as tsEthers } from "ethers";
-import { NFT__factory } from "../../../build/typechain";
+import { Signer } from "ethers";
 import { NFT } from "../../../build/typechain";
-import { BigNumberish } from "ethers";
-import { getSignerForDeployer } from "../utils";
+import {deployContract, getDeployment} from "../utils";
+import {DeploymentFunction, SetAddresses} from "./index";
 
-export const contractNames = () => ["nft"];
-
-export type NftConstructorArguments = [
-  string,
-  string,
-  BigNumberish,
-  string,
-  string
-];
-
-export const constructorArguments: () => NftConstructorArguments = () => [
+const constructorArguments = [
   process.env.CONSTRUCTOR_NFT_NAME,
   process.env.CONSTRUCTOR_NFT_SYMBOL,
   process.env.CONSTRUCTOR_NFT_MAX,
@@ -22,28 +11,24 @@ export const constructorArguments: () => NftConstructorArguments = () => [
   process.env.CONSTRUCTOR_NFT_BASE_URI
 ];
 
-const deployNFT = async (
-  constructorArguments: NftConstructorArguments,
-  signer?: tsEthers.Signer,
-  waitCount = 1
-) => {
-  signer = signer ?? (await getSignerForDeployer());
-  const NFT = new NFT__factory(signer);
-  const contract = await NFT.deploy(
-    constructorArguments[0],
-    constructorArguments[1],
-    constructorArguments[2],
-    constructorArguments[3],
-    constructorArguments[4]
-  );
-  await contract.deployTransaction.wait(waitCount);
-  return contract;
-};
+export const deployments = () => [{
+  name: "nft",
+  constructorArguments
+}];
 
-export const deploy = async (deployer, setAddresses) => {
-  console.log("deploying NFT");
-  const token: NFT = await deployNFT(constructorArguments(), deployer, 1);
-  console.log(`deployed NFT to address ${token.address}`);
-  setAddresses({ nft: token.address });
-  return token;
+export const deploy: DeploymentFunction = async (
+  deploymentName: string,
+  deployer: Signer,
+  setAddresses: SetAddresses
+) => {
+  const deployment = getDeployment(deploymentName, deployments());
+  console.log(`deploying ${deploymentName}`);
+  const contract = await deployContract(
+    "NFT",
+    deployment.constructorArguments,
+    deployer
+  ) as NFT;
+  console.log(`deployed ${deploymentName} to ${contract.address}`);
+  setAddresses({ [deploymentName]: contract.address });
+  return contract;
 };
