@@ -1,11 +1,12 @@
 import { ethers, upgrades } from "hardhat";
-import { ethers as tsEthers } from "ethers";
+import { Signer } from "ethers";
 import { getLedgerSigner } from "../utils";
+import {Deployment} from "./contracts";
 
 export const deployContract = async (
   contractName: string,
   constructorArguments: any[],
-  signer?: tsEthers.Signer,
+  signer?: Signer,
   waitCount = 1
 ) => {
   signer = signer ?? (await getSignerForDeployer());
@@ -47,7 +48,7 @@ export const getContractAddressFromConfigKey = (
 export const deployProxy = async (
   contractName,
   constructorArguments,
-  signer?: tsEthers.Signer,
+  signer?: Signer,
   waitCount = 1
 ) => {
   signer = signer ?? (await getSignerForDeployer());
@@ -64,7 +65,7 @@ export const deployProxy = async (
 export const upgradeProxy = async (
   contractName,
   currentAddress,
-  signer?: tsEthers.Signer,
+  signer?: Signer,
   waitCount = 1
 ) => {
   signer = signer ?? (await getSignerForDeployer());
@@ -100,8 +101,8 @@ export const getSignerIndex = () => {
  * or hardhat configuration, or a ledger signer if the process
  * was invoked with the `ledger` argument.
  */
-export const getSignerForDeployer = async (): Promise<tsEthers.Signer> => {
-  let deployer: tsEthers.Signer;
+export const getSignerForDeployer = async (): Promise<Signer> => {
+  let deployer: Signer;
   const deployerIndex = getSignerIndex();
   if (process.argv.includes("ledger")) {
     deployer = getLedgerSigner(deployerIndex, ethers.provider);
@@ -112,4 +113,14 @@ export const getSignerForDeployer = async (): Promise<tsEthers.Signer> => {
       throw new Error(`Could not fetch signer for index ${deployerIndex}`);
   }
   return deployer;
+};
+
+export const getDeployment = (
+  deploymentName: string,
+  deployments: Deployment[]
+): Deployment => {
+  const deployment = deployments.find(d => d.name === deploymentName);
+  if (!deployment)
+    throw new Error(`Cannot get deployment ${deploymentName}`);
+  return deployment;
 };
