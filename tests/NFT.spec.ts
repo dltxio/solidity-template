@@ -20,7 +20,7 @@ describe("ERC721 Token", () => {
       "NFT",
       100,
       user.address,
-      "https://www.cooltokens.com/"
+      "https://nft.dltx.io/"
     );
     // Send ETH to user from signer.
     await deployer.sendTransaction({
@@ -33,10 +33,10 @@ describe("ERC721 Token", () => {
     //Check contract has deployed
     const address = token.address;
     const verifyAddress = isAddress(address);
-    expect(verifyAddress === true);
+    expect(verifyAddress).to.be.true;
 
     //Check sale active status
-    expect((await token.isMintEnabled()) === false);
+    expect(await token.isMintEnabled()).to.be.false;
   });
 
   it("Should return sale active status", async () => {
@@ -78,8 +78,8 @@ describe("ERC721 Token", () => {
   it("Should set token URI", async () => {
     const currentTokenId = await token.getLastTokenId();
     const currentTokenUri = await token.tokenURI(currentTokenId);
-    const baseUri = await token.getBaseURI();
-    const fullUri = baseUri + "/" + currentTokenId + ".json";
+
+    const fullUri = "https://nft.dltx.io/" + currentTokenId + ".json";
     expect(currentTokenUri === fullUri);
 
     //Check non-existant token URI returns error

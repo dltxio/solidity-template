@@ -27,7 +27,7 @@ describe("ERC721a", () => {
     //Check contract has deployed
     const address = token.address;
     const verifyAddress = isAddress(address);
-    expect(verifyAddress === true);
+    expect(verifyAddress).to.be.true;
   });
 
   it("Should mint tokens", async () => {
@@ -37,7 +37,7 @@ describe("ERC721a", () => {
 
     //Check token exists
     const tokenExists = await token.exists(1);
-    expect(tokenExists === true);
+    expect(tokenExists).to.be.true;
 
     //Check total minted
     const total = await token.totalMinted();

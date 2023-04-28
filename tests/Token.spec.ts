@@ -45,13 +45,13 @@ describe("ERC20 Token", () => {
 
   it("Should only allow deployer to mint/burn", async () => {
     // List protected functions.
-    let userToken = token.connect(user);
+    const userToken = token.connect(user);
     const ownerFunctions = [
       () => userToken.mint(user.address, "1"),
       () => userToken.burn(user.address, "1")
     ];
     // Assert that all protected functions revert when called from an user.
-    for (let ownerFunction of ownerFunctions) {
+    for (const ownerFunction of ownerFunctions) {
       try {
         await expect(ownerFunction()).to.be.revertedWith(
           "Ownable: caller is not the owner"
