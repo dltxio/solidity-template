@@ -41,7 +41,7 @@ describe("ERC721 Token", () => {
 
   it("Should return sale active status", async () => {
     await token.toggleMintStatus();
-    expect((await token.isMintEnabled()) === true);
+    expect(await token.isMintEnabled()).to.be.true;
   });
 
   it("Should only allow owner to toggle if sale is active", async () => {
@@ -100,7 +100,7 @@ describe("ERC721 Token", () => {
   it("Should set the base URI", async () => {
     await token.setBaseURI("https://newbaseuri.com");
     const newBaseUri = await token.getBaseURI();
-    expect(newBaseUri === "https://newbaseuri.com");
+    expect(newBaseUri).to.equal("https://newbaseuri.com");
   });
 
   it("Should only allow owner to call renounceOwnership and new owner always be the fixed address ", async () => {
