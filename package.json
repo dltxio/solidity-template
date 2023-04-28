@@ -24,13 +24,13 @@
     "chai": "^4.3.7",
     "dotenv": "^16.0.3",
     "ethereum-waffle": "^4.0.10",
-    "ethers": "^5.4.7",
+    "ethers": "^5.7.2",
     "hardhat": "^2.14.0",
     "hardhat-contract-sizer": "^2.8.0",
     "rlp": "^2.2.6",
-    "ts-node": "^10.0.0",
-    "typechain": "^6.1.0",
-    "typescript": "^4.3.4"
+    "ts-node": "^10.9.1",
+    "typechain": "^8.1.1",
+    "typescript": "^5.0.4"
   },
   "resolutions": {
     "@ledgerhq/hw-app-eth": "6.7.0",
