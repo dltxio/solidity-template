@@ -1,21 +1,22 @@
 ﻿import { ethers } from "hardhat";
-import { ethers as tsEthers } from "ethers";
-import { expect } from "chai";
+import { Signer, ethers as tsEthers } from "ethers";
+import { expect, use } from "chai";
 import { getEventData } from "./utils";
 import { Token, Token__factory } from "../build/typechain";
 
+import { solidity } from "ethereum-waffle";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
+use(solidity);
+
 let token: Token;
-let deployer: tsEthers.Signer;
-let user: tsEthers.Wallet;
+let deployer: Signer;
+let user: SignerWithAddress;
 
 describe("ERC20 Token", () => {
   before(async () => {
-    deployer = (await ethers.getSigners())[0];
+    [deployer, user] = await ethers.getSigners();
     token = await new Token__factory(deployer).deploy("Token", "TKN", 18);
-    user = new ethers.Wallet(
-      "0xbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeef",
-      deployer.provider
-    );
+
     // Send ETH to user from signer.
     await deployer.sendTransaction({
       to: user.address,

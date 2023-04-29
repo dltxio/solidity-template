@@ -24,7 +24,7 @@
     "chai": "^4.3.7",
     "dotenv": "^16.0.3",
     "ethereum-waffle": "^4.0.10",
-    "ethers": "^5.5.4",git
+    "ethers": "^5.5.4",
     "hardhat": "^2.14.0",
     "hardhat-contract-sizer": "^2.8.0",
     "rlp": "^2.2.6",

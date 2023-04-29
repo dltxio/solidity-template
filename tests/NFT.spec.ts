@@ -1,20 +1,23 @@
 ﻿import { ethers } from "hardhat";
-import { ethers as tsEthers } from "ethers";
-import { expect } from "chai";
+import { expect, use } from "chai";
 import { isAddress } from "ethers/lib/utils";
 import { NFT, NFT__factory } from "../build/typechain";
+import { solidity } from "ethereum-waffle";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
+
+use(solidity);
 
 let token: NFT;
-let deployer: tsEthers.Signer;
-let user: tsEthers.Wallet;
+let deployer: SignerWithAddress;
+let user: SignerWithAddress;
 
 describe("ERC721 Token", () => {
   before(async () => {
-    deployer = (await ethers.getSigners())[0];
-    user = new ethers.Wallet(
-      "0xbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeef",
-      deployer.provider
-    );
+    [deployer, user] = await ethers.getSigners();
+    // user = new ethers.Wallet(
+    //   "0xbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeef",
+    //   deployer.provider
+    // );
     token = await new NFT__factory(deployer).deploy(
       "ERC721Token",
       "NFT",
