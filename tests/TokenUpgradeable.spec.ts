@@ -4,24 +4,22 @@ import { expect } from "chai";
 import { getEventData } from "./utils";
 import { deployProxy } from "../scripts/deploy/utils";
 import { TokenUpgradeable } from "../build/typechain";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
 
 let token: TokenUpgradeable;
 let deployer: tsEthers.Signer;
-let user: tsEthers.Wallet;
+let user: SignerWithAddress;
 
 describe("ERC20 Token Upgradeable", () => {
   before(async () => {
-    deployer = (await ethers.getSigners())[0];
+    [deployer, user] = await ethers.getSigners();
     token = (await deployProxy(
       "TokenUpgradeable",
       ["Token", "TKN", 18],
       deployer,
       1
     )) as TokenUpgradeable;
-    user = new ethers.Wallet(
-      "0xbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeef",
-      deployer.provider
-    );
+
     // Send ETH to user from signer.
     await deployer.sendTransaction({
       to: user.address,
@@ -51,13 +49,13 @@ describe("ERC20 Token Upgradeable", () => {
 
   it("Should only allow deployer to mint/burn", async () => {
     // List protected functions.
-    let userToken = token.connect(user);
+    const userToken = token.connect(user);
     const ownerFunctions = [
       () => userToken.mint(user.address, "1"),
       () => userToken.burn(user.address, "1")
     ];
     // Assert that all protected functions revert when called from an user.
-    for (let ownerFunction of ownerFunctions) {
+    for (const ownerFunction of ownerFunctions) {
       try {
         await expect(ownerFunction()).to.be.revertedWith(
           "Ownable: caller is not the owner"
