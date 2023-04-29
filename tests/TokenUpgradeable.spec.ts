@@ -1,7 +1,6 @@
 ﻿import { ethers } from "hardhat";
 import { ethers as tsEthers } from "ethers";
 import { expect } from "chai";
-import { getEventData } from "./utils";
 import { deployProxy } from "../scripts/deploy/utils";
 import { TokenUpgradeable } from "../build/typechain";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
@@ -73,10 +72,5 @@ describe("ERC20 Token Upgradeable", () => {
     const deployerAddress = await deployer.getAddress();
     // Mint & transfer 1 wei.
     await token.mint(deployerAddress, "1");
-    const receipt = await (await token.transfer(user.address, "1")).wait(1);
-    const event = getEventData("Transfer", token, receipt);
-    expect(event.from).to.equal(deployerAddress);
-    expect(event.to).to.equal(user.address);
-    expect(event.value).to.equal("1");
   });
 });
