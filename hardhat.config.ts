@@ -32,11 +32,28 @@ export default {
   networks: {
     hardhat: {
       chainId: 1337,
-      allowUnlimitedContractSize: false
+      allowUnlimitedContractSize: false,
+      accounts: {
+        mnemonic:
+          process.env.SEPOLIA_SEED ||
+          "test test test test test test test test test test test junk",
+        path: "m/44'/60'/0'/0",
+        initialIndex: 0,
+        count: 20,
+        passphrase: ""
+      }
     },
     sepolia: {
       url: process.env.SEPOLIA_URL || defaultRpcUrl,
-      accounts: [process.env.PRIVATE_KEY || defaultKey]
+      accounts: {
+        mnemonic:
+          process.env.SEPOLIA_SEED ||
+          "test test test test test test test test test test test junk",
+        path: "m/44'/60'/0'/0",
+        initialIndex: 0,
+        count: 20,
+        passphrase: ""
+      }
     },
     mainnet: {
       url: process.env.MAINNET_URL || defaultRpcUrl,

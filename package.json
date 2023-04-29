@@ -1,14 +1,15 @@
 {
   "name": "dltx-solidity",
   "version": "0.0.2",
-  "private": true,
+  "private": false,
   "scripts": {
     "prepare": "husky install",
     "postinstall": "npx hardhat compile",
     "hh:compile": "npx hardhat compile && npx hardhat size-contracts",
+    "hh:clean": "npx hardhat clean",
     "hh:deploy": "npx hardhat compile && npx ts-node scripts/deploy/index.ts",
-    "hh:upgrade": "npx hardhat compile && npx ts-node scripts/deploy/index.ts upgrade-contracts",
     "hh:node": "npx hardhat node --hostname localhost",
+    "hh:upgrade": "npx hardhat compile && npx ts-node scripts/deploy/index.ts upgrade-contracts",
     "test": "npx hardhat test",
     "coverage": "npx hardhat coverage",
     "format": "prettier --write \"scripts/**/*.{js,ts}\" && prettier --write \"contracts/**/*.sol\"",
