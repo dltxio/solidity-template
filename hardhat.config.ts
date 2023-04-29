@@ -34,12 +34,8 @@ export default {
       chainId: 1337,
       allowUnlimitedContractSize: false
     },
-    kovan: {
-      url: process.env.KOVAN_URL || defaultRpcUrl,
-      accounts: [process.env.PRIVATE_KEY || defaultKey]
-    },
-    rinkeby: {
-      url: process.env.RINKEBY_URL || defaultRpcUrl,
+    sepolia: {
+      url: process.env.SEPOLIA_URL || defaultRpcUrl,
       accounts: [process.env.PRIVATE_KEY || defaultKey]
     },
     mainnet: {
