@@ -14,10 +14,6 @@ let user: SignerWithAddress;
 describe("ERC721 Token", () => {
   before(async () => {
     [deployer, user] = await ethers.getSigners();
-    // user = new ethers.Wallet(
-    //   "0xbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeef",
-    //   deployer.provider
-    // );
     token = await new NFT__factory(deployer).deploy(
       "ERC721Token",
       "NFT",
@@ -33,12 +29,12 @@ describe("ERC721 Token", () => {
   });
 
   it("Should have sale not active when contract is deployed", async () => {
-    //Check contract has deployed
+    // Check contract has deployed
     const address = token.address;
     const verifyAddress = isAddress(address);
     expect(verifyAddress).to.be.true;
 
-    //Check sale active status
+    // Check sale active status
     expect(await token.isMintEnabled()).to.be.false;
   });
 
@@ -73,7 +69,7 @@ describe("ERC721 Token", () => {
     const balance = await token.balanceOf(user.address);
     expect(balance).to.equal(5);
 
-    //Check token ID
+    // Check token ID
     const currentTokenId = await token.getLastTokenId();
     expect(currentTokenId === ethers.utils.parseEther("5"));
   });
@@ -85,7 +81,7 @@ describe("ERC721 Token", () => {
     const fullUri = "https://nft.dltx.io/" + currentTokenId + ".json";
     expect(currentTokenUri === fullUri);
 
-    //Check non-existant token URI returns error
+    // Check non-existant token URI returns error
     const unmintedTokenId = currentTokenId.add(1);
     await expect(token.tokenURI(unmintedTokenId)).to.be.revertedWith(
       "Nonexistent token"
@@ -93,7 +89,7 @@ describe("ERC721 Token", () => {
   });
 
   it("Should not mint more than max number of passes", async () => {
-    //Already minted 5, max is 100, need to mint 95 more
+    // Already minted 5, max is 100, need to mint 95 more
     await token.mint(95, user.address);
     await expect(token.mint(1, user.address)).to.be.revertedWith(
       "Not enough tokens remaining to mint"

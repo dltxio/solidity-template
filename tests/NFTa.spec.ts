@@ -1,20 +1,16 @@
 ﻿import { ethers } from "hardhat";
-import { ethers as tsEthers } from "ethers";
 import { expect } from "chai";
 import { isAddress } from "ethers/lib/utils";
 import { NFTa, NFTa__factory } from "../build/typechain";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
 
 let token: NFTa;
-let deployer: tsEthers.Signer;
-let user: tsEthers.Wallet;
+let deployer: SignerWithAddress;
+let user: SignerWithAddress;
 
 describe("ERC721a", () => {
   before(async () => {
-    deployer = (await ethers.getSigners())[0];
-    user = new ethers.Wallet(
-      "0xbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeef",
-      deployer.provider
-    );
+    [deployer, user] = await ethers.getSigners();
     token = await new NFTa__factory(deployer).deploy("ERC721a", "NFTa");
     // Send ETH to user from signer.
     await deployer.sendTransaction({
@@ -24,7 +20,7 @@ describe("ERC721a", () => {
   });
 
   it("Should deploy", async () => {
-    //Check contract has deployed
+    // Check contract has deployed
     const address = token.address;
     const verifyAddress = isAddress(address);
     expect(verifyAddress).to.be.true;
@@ -35,7 +31,7 @@ describe("ERC721a", () => {
     const balance = await token.balanceOf(user.address);
     expect(balance).to.equal(5);
 
-    //Check token exists
+    // Check token exists
     const tokenExists = await token.exists(1);
     expect(tokenExists).to.be.true;
 
