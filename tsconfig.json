@@ -1,20 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2018",
-    "module": "CommonJS",
+    "target": "es2020",
+    "module": "commonjs",
     "esModuleInterop": true,
-    "noImplicitAny": false,
-    "strictNullChecks": false,
-    "allowJs": true,
-    "noUnusedParameters": false,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "types": [
-      "node",
-      "mocha"
-    ]
-  },
-  "include": ["./scripts", "./build", "./tests"],
-  "files": ["./hardhat.config.ts"]
+    "skipLibCheck": true
+  }
 }
