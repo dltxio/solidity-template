@@ -4,34 +4,28 @@
       "files": "*.sol",
       "options": {
         "endOfLine": "lf",
-        "printWidth": 80,
-        "tabWidth": 4,
-        "useTabs": false,
+        "printWidth": 160,
+        "tabWidth": 2,
+        "useTabs": true,
         "singleQuote": false,
-        "bracketSpacing": false,
-        "explicitTypes": "always"
+        "bracketSpacing": true
       }
     },
     {
-      "files": "*.ts",
+  "files": "*.ts",
       "options": {
         "arrowParens": "always",
         "bracketSpacing": true,
         "endOfLine": "lf",
-        "htmlWhitespaceSensitivity": "css",
         "insertPragma": false,
-        "jsxBracketSameLine": false,
-        "jsxSingleQuote": false,
-        "printWidth": 80,
-        "proseWrap": "preserve",
-        "quoteProps": "as-needed",
+        "printWidth": 160,
+        "proseWrap": "always",
         "requirePragma": false,
         "semi": true,
         "singleQuote": false,
         "tabWidth": 2,
         "trailingComma": "none",
-        "useTabs": false,
-        "vueIndentScriptAndStyle": false,
+        "useTabs": true,
         "parser": "typescript"
       }
     }
